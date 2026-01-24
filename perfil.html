@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Perfil de Voluntario</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#007BFF",
+            "background-light": "#F8F9FA",
+            "background-dark": "#101c22",
+            "accent-orange": "#FFC107",
+            "accent-red": "#DC3545",
+            "accent-green": "#198754",
+            "text-dark": "#343A40",
+            "text-light": "#F8F9FA",
+          },
+          fontFamily: {
+            display: ["Public Sans", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light">
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const perfilTab = document.getElementById("perfilTab");
+      const postulacionesTab = document.getElementById("postulacionesTab");
+      const perfilContent = document.getElementById("perfilContent");
+      const postulacionesContent = document.getElementById(
+        "postulacionesContent"
+      );
+
+      perfilTab.addEventListener("click", function (e) {
+        e.preventDefault();
+        perfilTab.classList.add("border-b-primary", "text-primary");
+        perfilTab.classList.remove(
+          "border-b-transparent",
+          "text-gray-500",
+          "dark:text-gray-400"
+        );
+        postulacionesTab.classList.remove("border-b-primary", "text-primary");
+        postulacionesTab.classList.add(
+          "border-b-transparent",
+          "text-gray-500",
+          "dark:text-gray-400"
+        );
+
+        perfilContent.classList.remove("hidden");
+        postulacionesContent.classList.add("hidden");
+      });
+
+      postulacionesTab.addEventListener("click", function (e) {
+        e.preventDefault();
+        postulacionesTab.classList.add("border-b-primary", "text-primary");
+        postulacionesTab.classList.remove(
+          "border-b-transparent",
+          "text-gray-500",
+          "dark:text-gray-400"
+        );
+        perfilTab.classList.remove("border-b-primary", "text-primary");
+        perfilTab.classList.add(
+          "border-b-transparent",
+          "text-gray-500",
+          "dark:text-gray-400"
+        );
+
+        postulacionesContent.classList.remove("hidden");
+        perfilContent.classList.add("hidden");
+      });
+    });
+  </script>
+
+  <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+    <div class="layout-container flex h-full grow flex-col">
+      </head>
+
+      <body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+        <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+          <div class="layout-container flex h-full grow flex-col">
+            <header
+              class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+              <div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+                <div class="flex items-center gap-4 text-heading-light dark:text-heading-dark">
+                  <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+                  <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de Voluntariado</h2>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                  <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary"
+                    href="proyectos.html">Casos de desastre</a>
+                  <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary"
+                    href="organizaciones.html">Organizaciones</a>
+                    <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="capacitacion.html">Capacitación</a>
+                  <a class="text-sm font-medium leading-normal text-primary dark:text-secondary" href="perfil.html">Mi
+                    Perfil</a>
+                  
+                </nav>
+                <div class="flex items-center gap-4">
+
+                  <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="index.html">Cerrar Sesión</a>
+                  <button id="notifBtn"
+                    class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                  </button>
+                  <div onclick="window.location.href='perfil.html'"
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all"
+                    data-alt="User profile picture"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmbF7_HrmSigUZBAsnaOpRRXw8BZ-5sAYkzQ5o4AxXple2TJ_W45gngFRafRfc33dhsWL7-aGg1_VxwVRqXbqQYVvB1WjXb-AgCoZET1js5hI4IebohZuhUFH-MqQP2AzA_BqBzhqjOZirsLp86ifMnquTbK1j2fsPvJxwQcAoFMzcDEQKJk8GWu4NXYGHLMuUIolUq1-_32jDiogWlSPSknhALsRNJPu5jvyFLmjFVpwymCuCq-OEYwhT8ZJ99R2krnKuLYZlbret");'>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <main class="flex flex-1 justify-center py-5 px-4 sm:px-10">
+              <div class="layout-content-container flex flex-col max-w-5xl flex-1">
+                <!-- Profile Header Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">
+                  <div class="flex flex-col @container md:flex-row md:items-center md:justify-between gap-6">
+                    <div class="flex items-center gap-6">
+                      <div class="relative">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-32"
+                          data-alt="User avatar" style="
+                        background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDF9LLoCX3YZeIPAJJ8VQVHglj2GKhp1HEnmXe_ojY8g3BqVij4l_oaIb_9t_MUtrLPR_kOVQH0nmQCRXhBVr_QyOvBX5Xlj6AI3SSCrHrXOaaPdhg5RtFHQCjWYsz-_Kq_EVd7_wLES41wQ4UZDTNN3o0GcN9XXD72jMGHJJiHCh7yixCjZ0FRzGRqK9mxOy3map7O95WzI97GMm3T8uWI2qHCs1_pqfl-5IN0L-XekYZ__dm04sCt_a2Qb-nO4PFX24wGZFeHgO3h');
+                      "></div>
+                        <button
+                          class="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full hover:bg-primary/90">
+                          <span class="material-symbols-outlined text-base">edit</span>
+                        </button>
+                      </div>
+                      <div class="flex flex-col justify-center">
+                        <h2 class="text-3xl font-bold leading-tight tracking-tight">
+                          Ana Garcia
+                        </h2>
+                        <p class="text-gray-500 dark:text-gray-400 mt-1">
+                          Voluntario apasionado por la ayuda humanitaria y la
+                          respuesta a desastres.
+                        </p>
+                        <div class="flex items-center gap-2 mt-3">
+                          <span
+                            class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-accent-orange/20 text-accent-orange">
+                            <span class="material-symbols-outlined text-sm">local_hospital</span>
+                            Primeros Auxilios
+                          </span>
+                          <span
+                            class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium bg-accent-green/20 text-accent-green">
+                            <span class="material-symbols-outlined text-sm">groups</span>
+                            Líder de Equipo
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex w-full flex-col @[320px]:flex-row gap-3 @[480px]:w-auto shrink-0">
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] flex-1 @[480px]:flex-auto">
+                        <span class="truncate">Editar Perfil</span>
+                      </button>
+                      <button
+                        class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-200 dark:bg-gray-700 text-text-dark dark:text-text-light text-sm font-bold leading-normal tracking-[0.015em] flex-1 @[480px]:flex-auto">
+                        <span class="truncate">Descargar CV</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="pb-3">
+                  <div class="flex border-b border-gray-200 dark:border-gray-700 gap-8">
+                    <a id="perfilTab"
+                      class="flex flex-col items-center justify-center border-b-[3px] border-b-primary pb-[13px] pt-4 cursor-pointer"
+                      href="#">
+                      <p class="text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                        Mi Perfil
+                      </p>
+                    </a>
+                    <a id="postulacionesTab"
+                      class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-[13px] pt-4 hover:text-text-dark dark:hover:text-text-light cursor-pointer"
+                      href="#">
+                      <p class="text-sm font-bold leading-normal tracking-[0.015em]">
+                        Mis Postulaciones
+                      </p>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Perfil Content -->
+                <div id="perfilContent" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+                  <div class="lg:col-span-1 flex flex-col gap-6">
+                    <!-- Contact Info -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                      <h3 class="text-lg font-bold leading-tight tracking-tight mb-4">
+                        Información de Contacto
+                      </h3>
+                      <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                          <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">call</span>
+                          <p class="text-sm">+54 9 11 1234 5678</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                          <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">email</span>
+                          <p class="text-sm">carlos.rodriguez@email.com</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                          <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">location_on</span>
+                          <p class="text-sm">Buenos Aires, Argentina</p>
+                        </div>
+                        <div class="flex items-center gap-4">
+                          <span
+                            class="material-symbols-outlined text-gray-500 dark:text-gray-400">event_available</span>
+                          <p class="text-sm">Disponibilidad Inmediata</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Skills -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                      <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold leading-tight tracking-tight">
+                          Habilidades
+                        </h3>
+                        <button class="text-primary hover:text-primary/80 text-sm font-bold">
+                          Añadir
+                        </button>
+                      </div>
+                      <div class="flex flex-wrap gap-2">
+                        <span
+                          class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">Logística</span>
+                        <span
+                          class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">Comunicación</span>
+                        <span
+                          class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">Construcción</span>
+                        <span
+                          class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">RCP</span>
+                        <span class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">Manejo
+                          de Maquinaria</span>
+                        <span
+                          class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">Español</span>
+                        <span
+                          class="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">Inglés</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="lg:col-span-2 flex flex-col gap-6">
+                    <!-- Experience -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                      <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold leading-tight tracking-tight">
+                          Experiencia y Formación
+                        </h3>
+                        <button class="text-primary hover:text-primary/80 text-sm font-bold">
+                          Añadir
+                        </button>
+                      </div>
+                      <div class="space-y-5">
+                        <div class="relative group">
+                          <div
+                            class="absolute -inset-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg opacity-0 group-hover:opacity-100 transition">
+                          </div>
+                          <div class="relative p-4 border-l-4 border-primary">
+                            <div class="flex justify-between items-start">
+                              <div>
+                                <h4 class="font-bold">Coordinador de Logística</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">
+                                  Cruz Roja Argentina
+                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                  Ene 2021 - Dic 2022
+                                </p>
+                              </div>
+                              <button
+                                class="text-gray-400 hover:text-text-dark dark:hover:text-text-light opacity-0 group-hover:opacity-100 transition">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                              </button>
+                            </div>
+                            <p class="text-sm mt-2">
+                              Organización y distribución de suministros durante las
+                              inundaciones en la provincia de Corrientes.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="relative group">
+                          <div
+                            class="absolute -inset-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg opacity-0 group-hover:opacity-100 transition">
+                          </div>
+                          <div class="relative p-4 border-l-4 border-gray-300 dark:border-gray-600">
+                            <div class="flex justify-between items-start">
+                              <div>
+                                <h4 class="font-bold">
+                                  Certificación en Primeros Auxilios Avanzados
+                                </h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">
+                                  Defensa Civil
+                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                  Mar 2020
+                                </p>
+                              </div>
+                              <button
+                                class="text-gray-400 hover:text-text-dark dark:hover:text-text-light opacity-0 group-hover:opacity-100 transition">
+                                <span class="material-symbols-outlined text-lg">edit</span>
+                              </button>
+                            </div>
+                            <p class="text-sm mt-2">
+                              Curso intensivo de 40 horas sobre respuesta a
+                              emergencias médicas.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Volunteering History -->
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                      <h3 class="text-lg font-bold leading-tight tracking-tight mb-4">
+                        Historial de Voluntariado
+                      </h3>
+                      <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                          <thead class="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                              <th class="px-6 py-3" scope="col">
+                                Proyecto/Desastre
+                              </th>
+                              <th class="px-6 py-3" scope="col">Organización</th>
+                              <th class="px-6 py-3" scope="col">Rol</th>
+                              <th class="px-6 py-3" scope="col">Fechas</th>
+                              <th class="px-6 py-3" scope="col">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+                              <td class="px-6 py-4 font-medium whitespace-nowrap">
+                                Incendios en Patagonia
+                              </td>
+                              <td class="px-6 py-4">Fundación Vida Silvestre</td>
+                              <td class="px-6 py-4">Apoyo en Refugio</td>
+                              <td class="px-6 py-4">Feb 2023 - Mar 2023</td>
+                              <td class="px-6 py-4">
+                                <span class="text-accent-green font-semibold">Completado</span>
+                              </td>
+                            </tr>
+                            <tr class="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+                              <td class="px-6 py-4 font-medium whitespace-nowrap">
+                                Respuesta a Terremoto
+                              </td>
+                              <td class="px-6 py-4">Cascos Blancos</td>
+                              <td class="px-6 py-4">Logística y Distribución</td>
+                              <td class="px-6 py-4">Sep 2022</td>
+                              <td class="px-6 py-4">
+                                <span class="text-accent-green font-semibold">Completado</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Postulaciones Content -->
+                <div id="postulacionesContent" class="hidden mt-4">
+                  <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-6">
+                    <div class="flex items-center justify-between mb-6">
+                      <h3 class="text-2xl font-bold">Mis Postulaciones</h3>
+                      <div class="flex gap-2">
+                        <button
+                          class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90">
+                          Todas (5)
+                        </button>
+                        <button
+                          class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600">
+                          Pendientes (2)
+                        </button>
+                        <button
+                          class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600">
+                          Aceptadas (3)
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Postulación 1 -->
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
+                      <div class="flex gap-4">
+                        <div
+                          class="w-20 h-20 bg-accent-red/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <span class="material-symbols-outlined text-3xl text-accent-red">emergency</span>
+                        </div>
+                        <div class="flex-1">
+                          <div class="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 class="text-lg font-bold">
+                                Inundaciones en la Región Sur
+                              </h4>
+                              <p class="text-sm text-gray-600 dark:text-gray-400">
+                                Cruz Roja Argentina
+                              </p>
+                            </div>
+                            <span
+                              class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-bold bg-accent-green/20 text-accent-green">
+                              <span class="material-symbols-outlined text-sm">check_circle</span>
+                              Aceptada
+                            </span>
+                          </div>
+                          <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                            Rol: Coordinador de Logística • Fecha de postulación: 15
+                            Oct 2024
+                          </p>
+                          <div class="flex gap-3">
+                            <button
+                              class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90">
+                              Ver Detalles
+                            </button>
+                            <button
+                              class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-600">
+                              Contactar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Postulación 2 -->
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
+                      <div class="flex gap-4">
+                        <div
+                          class="w-20 h-20 bg-accent-orange/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <span
+                            class="material-symbols-outlined text-3xl text-accent-orange">local_fire_department</span>
+                        </div>
+                        <div class="flex-1">
+                          <div class="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 class="text-lg font-bold">
+                                Incendios Forestales - Córdoba
+                              </h4>
+                              <p class="text-sm text-gray-600 dark:text-gray-400">
+                                Defensa Civil
+                              </p>
+                            </div>
+                            <span
+                              class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-bold bg-accent-orange/20 text-accent-orange">
+                              <span class="material-symbols-outlined text-sm">schedule</span>
+                              Pendiente
+                            </span>
+                          </div>
+                          <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                            Rol: Apoyo en Evacuación • Fecha de postulación: 18 Oct
+                            2024
+                          </p>
+                          <div class="flex gap-3">
+                            <button
+                              class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90">
+                              Ver Detalles
+                            </button>
+                            <button
+                              class="px-4 py-2 bg-accent-red text-white rounded-lg text-sm font-semibold hover:bg-accent-red/90">
+                              Cancelar Postulación
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Postulación 3 -->
+                    <div class="border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
+                      <div class="flex gap-4">
+                        <div class="w-20 h-20 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <span class="material-symbols-outlined text-3xl text-primary">water_drop</span>
+                        </div>
+                        <div class="flex-1">
+                          <div class="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 class="text-lg font-bold">
+                                Distribución de Agua Potable
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+      </body>
+
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Postulaciones - Plataforma de Organización</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0b95da",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                        accent: "#FF7A00",
+                        "accent-green": "#198754",
+                        "accent-red": "#DC3545",
+                    },
+                    fontFamily: {
+                        display: ["Public Sans", "sans-serif"]
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 2px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .dark .filter-chip {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .filter-chip:hover {
+            border-color: #0b95da;
+            color: #0b95da;
+        }
+
+        .filter-chip.active {
+            background: #0b95da;
+            border-color: #0b95da;
+            color: white;
+        }
+
+        .postulation-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .dark .postulation-card {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .postulation-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .dark .modal-content {
+            background: #1f2937;
+        }
+
+        .skill-tag {
+            padding: 0.375rem 0.75rem;
+            background: #0b95da;
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+        }
+
+        .dark .search-bar {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #0d171c;
+        }
+
+        .dark .search-bar input {
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100">
+    <div class="relative flex min-h-screen w-full flex-col">
+        <!-- Header -->
+        <header
+            class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+            <div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+                <div class="flex items-center gap-4">
+                    <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+                    <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de organización</h2>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a class="text-sm font-medium leading-normal hover:text-primary"
+                        href="gestion_voluntariado.html">Voluntariado</a>
+                    <a class="text-sm font-medium leading-normal hover:text-primary" href="dashboard.html">Dashboard</a>
+                    <a class="text-sm font-medium leading-normal text-primary"
+                        href="gestion_postulaciones.html">Gestion de postulaciones</a>
+                    <a class="text-sm font-medium leading-normal hover:text-primary" href="perfil_organizacion.html">Mi
+                        organización</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button
+                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined">settings</span>
+                    </button>
+                    <button
+                        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    <div onclick="window.location.href='perfil_organizacion.html'"
+                        class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all"
+                        style='background-image: url("https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=200&h=200&fit=crop");'>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow px-4 sm:px-6 lg:px-8 py-8">
+            <div class="container mx-auto max-w-7xl">
+                <!-- Header Section -->
+                <div class="mb-8">
+                    <h1 class="text-4xl font-black text-gray-900 dark:text-white mb-2">Gestión de Postulaciones</h1>
+                    <p class="text-gray-600 dark:text-gray-400">Revisa y gestiona las postulaciones de voluntarios a tus
+                        proyectos</p>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Pendientes</p>
+                                <p class="text-3xl font-bold text-accent-red">23</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-accent-red/20 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-accent-red">schedule</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">En Revisión</p>
+                                <p class="text-3xl font-bold text-accent">12</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-accent">visibility</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Aprobadas</p>
+                                <p class="text-3xl font-bold text-accent-green">67</p>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-accent-green/20 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-accent-green">check_circle</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Rechazadas</p>
+                                <p class="text-3xl font-bold text-gray-400">18</p>
+                            </div>
+                            <div
+                                class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-gray-400">cancel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters and Search -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 mb-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col lg:flex-row gap-4 mb-6">
+                        <div class="flex-1">
+                            <label class="search-bar">
+                                <span class="material-symbols-outlined text-gray-400">search</span>
+                                <input type="text" placeholder="Buscar por nombre de voluntario o proyecto...">
+                            </label>
+                        </div>
+                        <select
+                            class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+                            <option>Todos los proyectos</option>
+                            <option>Inundaciones en la Región Sur</option>
+                            <option>Prevención de Incendios Forestales</option>
+                            <option>Campaña de Primeros Auxilios</option>
+                        </select>
+                        <select
+                            class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+                            <option>Ordenar por: Más reciente</option>
+                            <option>Ordenar por: Más antiguo</option>
+                            <option>Ordenar por: Nombre A-Z</option>
+                            <option>Ordenar por: Prioridad</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter Chips -->
+                    <div class="flex flex-wrap gap-3">
+                        <button class="filter-chip active" data-filter="all">Todas (120)</button>
+                        <button class="filter-chip" data-filter="pending">Pendientes (23)</button>
+                        <button class="filter-chip" data-filter="reviewing">En Revisión (12)</button>
+                        <button class="filter-chip" data-filter="approved">Aprobadas (67)</button>
+                        <button class="filter-chip" data-filter="rejected">Rechazadas (18)</button>
+                    </div>
+                </div>
+
+                <!-- Postulations List -->
+                <div class="space-y-4">
+                    <!-- Postulation 1 -->
+                    <div class="postulation-card">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="flex items-start gap-4 flex-1">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-16 h-16 flex-shrink-0"
+                                    style="background-image: url('https://randomuser.me/api/portraits/women/32.jpg');">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Ana María
+                                                Rodríguez</h3>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Enfermera • 5 años de
+                                                experiencia</p>
+                                        </div>
+                                        <span class="badge bg-accent-red/20 text-accent-red">Pendiente</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                                            <span
+                                                class="material-symbols-outlined text-base align-middle mr-1">emergency</span>
+                                            Proyecto: Inundaciones en la Región Sur
+                                        </p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Postulado hace 2 horas</p>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="skill-tag">Primeros Auxilios</span>
+                                        <span class="skill-tag">Triaje</span>
+                                        <span class="skill-tag">Soporte Vital</span>
+                                        <span class="skill-tag">Trauma</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                        "Tengo amplia experiencia en situaciones de emergencia y desastres naturales. He
+                                        participado en 12 misiones humanitarias y cuento con todas las certificaciones
+                                        necesarias..."
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex lg:flex-col gap-2 lg:min-w-[180px]">
+                                <button onclick="openModal('ana-rodriguez')"
+                                    class="action-btn bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">visibility</span>
+                                    Ver Detalles
+                                </button>
+                                <button
+                                    class="action-btn bg-accent-green text-white hover:bg-accent-green/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">check_circle</span>
+                                    Aprobar
+                                </button>
+                                <button
+                                    class="action-btn bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">cancel</span>
+                                    Rechazar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Postulation 2 -->
+                    <div class="postulation-card">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="flex items-start gap-4 flex-1">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-16 h-16 flex-shrink-0"
+                                    style="background-image: url('https://randomuser.me/api/portraits/men/45.jpg');">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Carlos Méndez
+                                            </h3>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Bombero • 8 años de
+                                                experiencia</p>
+                                        </div>
+                                        <span class="badge bg-accent/20 text-accent">En Revisión</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                                            <span
+                                                class="material-symbols-outlined text-base align-middle mr-1">local_fire_department</span>
+                                            Proyecto: Prevención de Incendios Forestales
+                                        </p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Postulado hace 5 horas</p>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="skill-tag">Combate Incendios</span>
+                                        <span class="skill-tag">Rescate</span>
+                                        <span class="skill-tag">SAR</span>
+                                        <span class="skill-tag">Liderazgo</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                        "Soy bombero profesional con certificación en manejo de incendios forestales. He
+                                        liderado equipos en más de 20 operaciones de emergencia..."
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex lg:flex-col gap-2 lg:min-w-[180px]">
+                                <button onclick="openModal('carlos-mendez')"
+                                    class="action-btn bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">visibility</span>
+                                    Ver Detalles
+                                </button>
+                                <button
+                                    class="action-btn bg-accent-green text-white hover:bg-accent-green/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">check_circle</span>
+                                    Aprobar
+                                </button>
+                                <button
+                                    class="action-btn bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">cancel</span>
+                                    Rechazar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Postulation 3 -->
+                    <div class="postulation-card">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="flex items-start gap-4 flex-1">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-16 h-16 flex-shrink-0"
+                                    style="background-image: url('https://randomuser.me/api/portraits/women/65.jpg');">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Laura Fernández
+                                            </h3>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Psicóloga • 6 años de
+                                                experiencia</p>
+                                        </div>
+                                        <span class="badge bg-accent-red/20 text-accent-red">Pendiente</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                                            <span
+                                                class="material-symbols-outlined text-base align-middle mr-1">emergency</span>
+                                            Proyecto: Inundaciones en la Región Sur
+                                        </p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Postulado hace 1 día</p>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="skill-tag">Apoyo Psicológico</span>
+                                        <span class="skill-tag">Crisis</span>
+                                        <span class="skill-tag">Trauma</span>
+                                        <span class="skill-tag">Intervención</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                        "Especializada en intervención psicológica en crisis y desastres. He trabajado
+                                        con Cruz Roja en varios proyectos de apoyo a comunidades afectadas..."
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex lg:flex-col gap-2 lg:min-w-[180px]">
+                                <button onclick="openModal('laura-fernandez')"
+                                    class="action-btn bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">visibility</span>
+                                    Ver Detalles
+                                </button>
+                                <button
+                                    class="action-btn bg-accent-green text-white hover:bg-accent-green/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">check_circle</span>
+                                    Aprobar
+                                </button>
+                                <button
+                                    class="action-btn bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">cancel</span>
+                                    Rechazar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Postulation 4 -->
+                    <div class="postulation-card">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="flex items-start gap-4 flex-1">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-16 h-16 flex-shrink-0"
+                                    style="background-image: url('https://randomuser.me/api/portraits/men/22.jpg');">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Roberto Silva
+                                            </h3>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">Ingeniero Civil • 10
+                                                años de experiencia</p>
+                                        </div>
+                                        <span class="badge bg-accent-green/20 text-accent-green">Aprobada</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                                            <span
+                                                class="material-symbols-outlined text-base align-middle mr-1">emergency</span>
+                                            Proyecto: Inundaciones en la Región Sur
+                                        </p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Aprobado hace 2 días</p>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <span class="skill-tag">Logística</span>
+                                        <span class="skill-tag">Infraestructura</span>
+                                        <span class="skill-tag">Construcción</span>
+                                        <span class="skill-tag">Evaluación</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                        "Ingeniero civil con experiencia en evaluación de daños estructurales
+                                        post-desastre. He colaborado con varias ONGs en proyectos de reconstrucción..."
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex lg:flex-col gap-2 lg:min-w-[180px]">
+                                <button onclick="openModal('roberto-silva')"
+                                    class="action-btn bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">visibility</span>
+                                    Ver Detalles
+                                </button>
+                                <button
+                                    class="action-btn bg-accent text-white hover:bg-accent/90 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">mail</span>
+                                    Contactar
+                                </button>
+                                <button
+                                    class="action-btn bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-lg">person</span>
+                                    Ver Perfil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-between mt-8">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Mostrando 1-4 de 120 postulaciones</p>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+                            disabled>
+                            Anterior
+                        </button>
+                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">1</button>
+                        <button
+                            class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">2</button>
+                        <button
+                            class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">3</button>
+                        <button
+                            class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Detalles de la Postulación</h2>
+                        <button onclick="closeModal()"
+                            class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <!-- Volunteer Info -->
+                    <div class="flex items-start gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-20 h-20 flex-shrink-0"
+                            style="background-image: url('https://randomuser.me/api/portraits/women/32.jpg');"></div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">Ana María Rodríguez</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Enfermera Profesional</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-base">mail</span>
+                                    ana.rodriguez@email.com
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-base">call</span>
+                                    +54 11 1234-5678
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-base">location_on</span>
+                                    Buenos Aires, Argentina
+                                </span>
+                            </div>
+                        </div>
+                        <span class="badge bg-accent-red/20 text-accent-red">Pendiente</span>
+                    </div>
+
+                    <!-- Project Info -->
+                    <div class="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Proyecto Postulado</h4>
+                        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <div
+                                    class="w-12 h-12 rounded-lg bg-accent-red/20 flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-accent-red text-xl">emergency</span>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold text-gray-900 dark:text-white mb-1">Inundaciones en la Región
+                                        Sur</h5>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Respuesta a emergencia por
+                                        inundaciones severas</p>
+                                    <div class="flex gap-2">
+                                        <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">15/20
+                                            voluntarios</span>
+                                        <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">Fecha
+                                            inicio: 10 Oct 2024</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Experiencia y Habilidades</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Años de experiencia:
+                                    5 años</p>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Habilidades:</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-tag">Primeros Auxilios Avanzados</span>
+                                    <span class="skill-tag">Triaje en Emergencias</span>
+                                    <span class="skill-tag">Soporte Vital Básico</span>
+                                    <span class="skill-tag">Manejo de Trauma</span>
+                                    <span class="skill-tag">Atención Prehospitalaria</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Certificaciones:</p>
+                                <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                    <li>Certificación en Primeros Auxilios Avanzados - Cruz Roja (2022)</li>
+                                    <li>ACLS (Advanced Cardiovascular Life Support) - AHA (2023)</li>
+                                    <li>Certificación en Respuesta a Emergencias - FEMA (2021)</li>
+                                    <li>Diplomado en Gestión de Desastres - UBA (2020)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Motivation Letter -->
+                    <div class="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Carta de Motivación</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            Tengo amplia experiencia en situaciones de emergencia y desastres naturales. He participado
+                            en 12 misiones humanitarias previas, incluyendo respuestas a inundaciones en la provincia de
+                            Santa Fe (2019) y terremotos en zonas rurales (2020). Mi experiencia como enfermera en la
+                            sala de emergencias del Hospital Público me ha preparado para trabajar bajo presión en
+                            situaciones críticas.
+                            <br><br>
+                            Cuento con todas las certificaciones necesarias y estoy disponible para desplegarme
+                            inmediatamente. Mi especialidad en triaje y atención prehospitalaria será de gran valor para
+                            el proyecto. Además, tengo experiencia trabajando en equipos multidisciplinarios y puedo
+                            adaptarme rápidamente a diferentes contextos.
+                            <br><br>
+                            Estoy comprometida con la labor humanitaria y considero que este proyecto es una oportunidad
+                            excepcional para aportar mis conocimientos y ayudar a las comunidades afectadas por las
+                            inundaciones.
+                        </p>
+                    </div>
+
+                    <!-- Previous Projects -->
+                    <div class="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Proyectos Previos con la
+                            Organización</h4>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-semibold text-sm text-gray-900 dark:text-white">Campaña de Vacunación
+                                        COVID-19</p>
+                                    <span
+                                        class="text-xs bg-accent-green/20 text-accent-green px-2 py-1 rounded-full font-semibold">Completado</span>
+                                </div>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">Marzo 2023 - Mayo 2023 • 120 horas
+                                </p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Evaluación: ⭐⭐⭐⭐⭐ Excelente
+                                    desempeño</p>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-semibold text-sm text-gray-900 dark:text-white">Respuesta a Tormenta
+                                        Severa</p>
+                                    <span
+                                        class="text-xs bg-accent-green/20 text-accent-green px-2 py-1 rounded-full font-semibold">Completado</span>
+                                </div>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">Enero 2023 • 48 horas</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Evaluación: ⭐⭐⭐⭐⭐ Destacada en
+                                    situaciones críticas</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Disponibilidad</h4>
+                        <div class="bg-accent-green/10 border border-accent-green/30 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="material-symbols-outlined text-accent-green">check_circle</span>
+                                <p class="font-semibold text-gray-900 dark:text-white">Disponible Inmediatamente</p>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Puede comenzar: Hoy mismo</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Duración disponible: Hasta 3 meses</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Disponibilidad horaria: Tiempo completo
+                                (40 hrs/semana)</p>
+                        </div>
+                    </div>
+
+                    <!-- Internal Notes -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Notas Internas</h4>
+                        <textarea
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            rows="3"
+                            placeholder="Agregar notas sobre esta postulación (visible solo para el equipo)..."></textarea>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-3">
+                        <button
+                            class="flex-1 px-6 py-3 bg-accent-green text-white rounded-lg font-semibold hover:bg-accent-green/90 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">check_circle</span>
+                            Aprobar Postulación
+                        </button>
+                        <button
+                            class="flex-1 px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">schedule</span>
+                            Marcar en Revisión
+                        </button>
+                        <button
+                            class="flex-1 px-6 py-3 bg-accent-red text-white rounded-lg font-semibold hover:bg-accent-red/90 transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">cancel</span>
+                            Rechazar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter chips functionality
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', function () {
+                filterChips.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Modal functions
+        function openModal(volunteerId) {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>

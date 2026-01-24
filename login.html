@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Registro y Acceso - Red de Respuesta a Desastres</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="login.css" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0b95da",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101c22",
+            "error": "#DC3545",
+          },
+          fontFamily: {
+            "display": ["Public Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#343A40] dark:text-gray-200">
+  <div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden p-4 sm:p-6 lg:p-8">
+    <div class="layout-container flex h-full w-full max-w-4xl grow flex-col">
+      <div class="flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex w-full flex-col">
+          <div class="flex flex-wrap justify-between gap-3 p-4 text-center">
+            <div class="flex w-full flex-col gap-3">
+              <p class="text-[#0d171c] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
+                Únete a la Red de Respuesta a Desastres
+              </p>
+              <p class="text-[#49819c] dark:text-gray-400 text-base font-normal leading-normal">
+                Conectando voluntarios con organizaciones humanitarias para una respuesta rápida y eficaz.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex px-4 py-3">
+            <div class="flex h-12 flex-1 items-center justify-center rounded-lg bg-[#e7eff4] dark:bg-background-dark p-1">
+              <label class="selector">
+                <span class="truncate">Soy Voluntario</span>
+                <input checked id="volunteer-radio" name="user_type" type="radio" value="Soy Voluntario" />
+              </label>
+              <label class="selector">
+                <span class="truncate">Somos una Organización</span>
+                <input id="organization-radio" name="user_type" type="radio" value="Somos una Organización" />
+              </label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+            <!-- LOGIN -->
+            <div class="form-card">
+              <h2>Iniciar Sesión</h2>
+              <form id="loginForm" class="flex flex-col gap-4">
+                <label class="flex flex-col">
+                  <p>Correo electrónico</p>
+                  <input placeholder="nombre@ejemplo.com" type="email" />
+                </label>
+                <label class="flex flex-col">
+                  <p>Contraseña</p>
+                  <input placeholder="Ingresa tu contraseña" type="password" />
+                </label>
+                <a href="#" class="text-sm text-primary hover:underline text-right">¿Olvidaste tu contraseña?</a>
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+                <div class="divider">
+                  <div></div><span>O continúa con</span><div></div>
+                </div>
+                <button type="button" class="btn-google">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR391ML_Aj8zXrIzrc2Ycy4RGUf9NByW7bRXJW0qeu5ZwndZcYNK2Z_IG2qZypmAYPC4e7ps8ftsYgIM3NCQPa1wcCmVnrTZShrywwl-vp97xfcbuQV042Bg0e-kgib3KdBSFfPPXhGaAHH6g38p4QbMAdJYxuDbPrrnvKLocgiB7P9KTb8loDIpBu1fN7q894rkerLpwF8uz9wICDK74oj0EXAx_5prC2KKZcndKboL0mmNaKVgZHV4l0V9oUqO3DVPZnFVq1116C" alt="Google logo" class="w-5 h-5">
+                  Iniciar sesión con Google
+                </button>
+              </form>
+            </div>
+
+            <!-- REGISTRO -->
+            <div class="form-card" id="registration-form-container">
+              <div id="volunteer-form">
+                <h2>Crear una cuenta de voluntario</h2>
+                <form id="registerForm" class="flex flex-col gap-4 mt-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <label><p>Nombre</p><input type="text" placeholder="Ingresa tu nombre" /></label>
+                    <label><p>Apellido</p><input type="text" placeholder="Ingresa tu apellido" /></label>
+                  </div>
+                  <label><p>Correo electrónico</p><input type="email" placeholder="nombre@ejemplo.com" /></label>
+                  <label><p>Contraseña</p><input type="password" placeholder="Crea una contraseña segura" /></label>
+                  <label><p>Confirmar Contraseña</p><input type="password" placeholder="Confirma tu contraseña" /></label>
+                  <button type="submit" class="btn-outline">Registrarse</button>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                    Al registrarte, aceptas nuestros <a href="#" class="text-primary hover:underline">Términos de Servicio</a> y <a href="#" class="text-primary hover:underline">Política de Privacidad</a>.
+                  </p>
+                  <p class="text-sm text-center">¿No eres un voluntario?
+                    <button id="switch-to-org-1" type="button" class="text-primary hover:underline font-semibold">Regístrate como organización.</button>
+                  </p>
+                </form>
+              </div>
+
+              <div class="hidden" id="organization-form">
+                <h2>Crear una cuenta de organización</h2>
+                <form id="registerOrgForm" class="flex flex-col gap-4 mt-4">
+                  <label><p>Nombre de la Organización</p><input type="text" placeholder="Ingresa el nombre de la organización" /></label>
+                  <label><p>Correo electrónico</p><input type="email" placeholder="contacto@organizacion.com" /></label>
+                  <label><p>Contraseña</p><input type="password" placeholder="Crea una contraseña segura" /></label>
+                  <label><p>Confirmar Contraseña</p><input type="password" placeholder="Confirma tu contraseña" /></label>
+                  <button type="submit" class="btn-outline">Registrarse</button>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                    Al registrarte, aceptas nuestros <a href="#" class="text-primary hover:underline">Términos de Servicio</a> y <a href="#" class="text-primary hover:underline">Política de Privacidad</a>.
+                  </p>
+                  <p class="text-sm text-center">¿Buscas registrarte como Voluntario?
+                    <button id="switch-to-volunteer-1" type="button" class="text-primary hover:underline font-semibold">Regístrate como voluntario.</button>
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const volunteerRadio = document.getElementById('volunteer-radio');
+    const organizationRadio = document.getElementById('organization-radio');
+    const volunteerForm = document.getElementById('volunteer-form');
+    const organizationForm = document.getElementById('organization-form');
+    const switchToOrgBtn1 = document.getElementById('switch-to-org-1');
+    const switchToVolunteerBtn1 = document.getElementById('switch-to-volunteer-1');
+
+    function showVolunteerForm() {
+      volunteerForm.classList.remove('hidden');
+      organizationForm.classList.add('hidden');
+    }
+
+    function showOrganizationForm() {
+      volunteerForm.classList.add('hidden');
+      organizationForm.classList.remove('hidden');
+    }
+
+    volunteerRadio.addEventListener('change', () => {
+      if (volunteerRadio.checked) showVolunteerForm();
+    });
+
+    organizationRadio.addEventListener('change', () => {
+      if (organizationRadio.checked) showOrganizationForm();
+    });
+
+    switchToOrgBtn1.addEventListener('click', () => {
+      organizationRadio.checked = true;
+      showOrganizationForm();
+    });
+
+    switchToVolunteerBtn1.addEventListener('click', () => {
+      volunteerRadio.checked = true;
+      showVolunteerForm();
+    });
+
+    if (volunteerRadio.checked) showVolunteerForm();
+
+    // 🔹 Redirección según tipo de usuario
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Redirige según el radio button seleccionado
+      if (volunteerRadio.checked) {
+        window.location.href = 'proyectos.html';
+      } else if (organizationRadio.checked) {
+        window.location.href = 'organizacion/gestion_voluntariado.html';
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Registro de voluntario siempre va a perfil_casos_desastres.html
+      window.location.href = 'proyectos.html';
+    });
+
+    document.getElementById('registerOrgForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Registro de organización siempre va a gestion_voluntariado.html
+      window.location.href = 'organizacion/gestion_voluntariado.html';
+    });
+  </script>
+</body>
+</html>

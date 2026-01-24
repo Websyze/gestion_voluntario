@@ -1,0 +1,537 @@
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Detalles del Desastre - AyudaActiva</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+            colors: {
+                "primary": "#005A9C",
+                "background-light": "#F4F4F4",
+                "background-dark": "#101c22",
+                "accent-orange": "#FF7A00",
+                "accent-red": "#E63946",
+                "accent-green": "#2A9D8F",
+                "accent-yellow": "#F4A261",
+            },
+            fontFamily: {
+                "display": ["Public Sans"]
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            },
+        },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+        
+        @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        }
+        
+        .fade-in {
+        animation: fade-in 0.5s ease-out;
+        }
+        
+        .hero-image {
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        }
+        
+        .hero-overlay {
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
+        }
+    </style>
+    </head>
+    <body class="bg-background-light dark:bg-background-dark font-display">
+
+    <div class="relative flex h-auto min-h-screen w-full flex-col">
+    <div class="layout-container flex h-full grow flex-col">
+    <header
+        class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+          <div class="flex items-center gap-4 text-heading-light dark:text-heading-dark">
+            <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+            <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de Voluntariado</h2>
+          </div>
+          <nav class="hidden md:flex items-center gap-8">
+            <a class="text-sm font-medium leading-normal text-primary dark:text-secondary"
+              href="proyectos.html">Casos de desastre</a>
+            <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary"
+              href="organizaciones.html">Organizaciones</a>
+            <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary"
+              href="perfil.html">Mi Perfil</a>
+          </nav>
+          <div class="flex items-center gap-4">
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700">
+              <span class="material-symbols-outlined">settings</span>
+            </button>
+            <button id="notifBtn"
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+              <span class="material-symbols-outlined">notifications</span>
+              <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <div onclick="window.location.href='perfil.html'"
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all"
+              data-alt="User profile picture"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmbF7_HrmSigUZBAsnaOpRRXw8BZ-5sAYkzQ5o4AxXple2TJ_W45gngFRafRfc33dhsWL7-aGg1_VxwVRqXbqQYVvB1WjXb-AgCoZET1js5hI4IebohZuhUFH-MqQP2AzA_BqBzhqjOZirsLp86ifMnquTbK1j2fsPvJxwQcAoFMzcDEQKJk8GWu4NXYGHLMuUIolUq1-_32jDiogWlSPSknhALsRNJPu5jvyFLmjFVpwymCuCq-OEYwhT8ZJ99R2krnKuLYZlbret");'>
+            </div>
+          </div>
+        </div>
+      </header>
+
+    <main class="flex-1">
+    <!-- Hero Section -->
+    <div id="heroSection" class="hero-image h-96 relative">
+    <div class="hero-overlay absolute inset-0"></div>
+    <div class="relative h-full max-w-7xl mx-auto px-4 lg:px-10 flex flex-col justify-end pb-8">
+    <div class="flex items-center gap-3 mb-4">
+    <span id="urgencyBadge" class="px-4 py-2 rounded-lg text-white text-sm font-bold"></span>
+    <span id="typeBadge" class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-bold"></span>
+    </div>
+    <h1 id="disasterTitle" class="text-white text-5xl font-black leading-tight mb-2"></h1>
+    <p id="disasterLocation" class="text-white text-xl flex items-center gap-2">
+    <span class="material-symbols-outlined">location_on</span>
+    <span></span>
+    </p>
+    </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="max-w-7xl mx-auto px-4 lg:px-10 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Content -->
+    <div class="lg:col-span-2 space-y-6">
+    <!-- Descripción -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 fade-in">
+    <h2 class="text-gray-900 dark:text-white text-2xl font-bold mb-4 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">info</span>
+    Descripción del Desastre
+    </h2>
+    <p id="disasterDescription" class="text-gray-700 dark:text-gray-300 text-base leading-relaxed"></p>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 fade-in">
+    <h2 class="text-gray-900 dark:text-white text-2xl font-bold mb-6 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">analytics</span>
+    Estadísticas del Caso
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-blue-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+    <span class="material-symbols-outlined text-primary text-4xl mb-2">groups</span>
+    <p class="text-3xl font-bold text-gray-900 dark:text-white" id="volunteerCount"></p>
+    <p class="text-sm text-gray-600 dark:text-gray-400">Voluntarios Activos</p>
+    </div>
+    <div class="bg-green-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+    <span class="material-symbols-outlined text-accent-green text-4xl mb-2">inventory_2</span>
+    <p class="text-3xl font-bold text-gray-900 dark:text-white" id="resourceProgress"></p>
+    <p class="text-sm text-gray-600 dark:text-gray-400">Recursos Obtenidos</p>
+    </div>
+    <div class="bg-orange-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+    <span class="material-symbols-outlined text-accent-orange text-4xl mb-2">calendar_month</span>
+    <p class="text-xl font-bold text-gray-900 dark:text-white" id="disasterDate"></p>
+    <p class="text-sm text-gray-600 dark:text-gray-400">Fecha de Inicio</p>
+    </div>
+    </div>
+    </div>
+
+    <!-- Progreso de Recursos -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 fade-in">
+    <h2 class="text-gray-900 dark:text-white text-2xl font-bold mb-4 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">trending_up</span>
+    Progreso de Recursos
+    </h2>
+    <div class="mb-4">
+    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+    <span id="resourcesNeeded"></span>
+    <span id="resourcePercentage"></span>
+    </div>
+    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+    <div id="progressBar" class="bg-accent-green rounded-full h-4 transition-all duration-500" style="width: 0%"></div>
+    </div>
+    </div>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">
+    Los recursos necesarios incluyen: <span id="resourcesList" class="font-semibold text-gray-900 dark:text-white"></span>
+    </p>
+    </div>
+
+    <!-- Organización Responsable -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 fade-in">
+    <h2 class="text-gray-900 dark:text-white text-2xl font-bold mb-4 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">corporate_fare</span>
+    Organización a Cargo
+    </h2>
+    <div class="flex items-center gap-4 p-4 bg-blue-50 dark:bg-gray-700 rounded-lg">
+    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+    <span class="material-symbols-outlined text-white text-3xl">domain</span>
+    </div>
+    <div>
+    <h3 id="organizationName" class="text-xl font-bold text-gray-900 dark:text-white"></h3>
+    <p class="text-sm text-gray-600 dark:text-gray-400">Coordinando los esfuerzos de ayuda</p>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="space-y-6">
+    <!-- Call to Action -->
+    <div class="bg-gradient-to-br from-primary to-blue-700 rounded-xl shadow-lg p-6 text-white fade-in">
+    <h2 class="text-2xl font-bold mb-4">¡Tu Ayuda es Necesaria!</h2>
+    <p class="mb-6 text-blue-100">Únete a los voluntarios que ya están marcando la diferencia en esta comunidad.</p>
+    <button id="volunteerBtn" class="w-full py-4 bg-white text-primary rounded-lg font-bold text-lg hover:bg-blue-50 transition-colors mb-3 flex items-center justify-center gap-2">
+    <span class="material-symbols-outlined">volunteer_activism</span>
+    Ser Voluntario
+    </button>
+    <button id="donateBtn" class="w-full py-4 bg-accent-green text-white rounded-lg font-bold text-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+    <span class="material-symbols-outlined">favorite</span>
+    Donar Recursos
+    </button>
+    </div>
+
+    <!-- Información de Contacto -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 fade-in">
+    <h2 class="text-gray-900 dark:text-white text-xl font-bold mb-4 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">contact_support</span>
+    Información de Contacto
+    </h2>
+    <div class="space-y-3">
+    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+    <span class="material-symbols-outlined text-primary">call</span>
+    <span class="text-sm">+1 (555) 123-4567</span>
+    </div>
+    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+    <span class="material-symbols-outlined text-primary">mail</span>
+    <span class="text-sm">ayuda@ayudaactiva.org</span>
+    </div>
+    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+    <span class="material-symbols-outlined text-primary">schedule</span>
+    <span class="text-sm">24/7 Disponible</span>
+    </div>
+    </div>
+    </div>
+
+    <!-- Compartir -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 fade-in">
+    <h2 class="text-gray-900 dark:text-white text-xl font-bold mb-4 flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">share</span>
+    Compartir este Caso
+    </h2>
+    <div class="flex gap-3">
+    <button class="flex-1 py-3 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors">
+    Facebook
+    </button>
+    <button class="flex-1 py-3 bg-sky-500 text-white rounded-lg font-medium text-sm hover:bg-sky-600 transition-colors">
+    Twitter
+    </button>
+    <button class="flex-1 py-3 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition-colors">
+    WhatsApp
+    </button>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 mt-12 border-t border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center">
+    <p class="text-center text-sm text-gray-500 dark:text-gray-400">© 2024 AyudaActiva. Todos los derechos reservados.</p>
+    <div class="flex space-x-6">
+    <a class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">Contacto</a>
+    <a class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">Términos de Servicio</a>
+    <a class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">Política de Privacidad</a>
+    </div>
+    </div>
+    </div>
+    </footer>
+    </div>
+    </div>
+
+    <script>
+    const disasters = [
+    {
+        id: 1,
+        title: "Inundaciones en la Región Sur",
+        type: "Inundación",
+        typeTag: "inundacion",
+        location: "Región Sur",
+        urgency: "Alta",
+        urgencyColor: "accent-red",
+        date: "24/05/2024",
+        organization: "Cruz Roja",
+        volunteers: 152,
+        description: "Fuertes lluvias han provocado inundaciones masivas afectando a miles de familias. Las comunidades más vulnerables han perdido sus hogares y necesitan asistencia inmediata. Se requiere coordinación urgente para distribuir alimentos, agua potable y refugio temporal a los afectados.",
+        image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&q=80",
+        resources: "5000L agua / 2000kg alimentos",
+        progress: 24
+    },
+    {
+        id: 2,
+        title: "Terremoto en Zona Central",
+        type: "Terremoto",
+        typeTag: "terremoto",
+        location: "Zona Central",
+        urgency: "Crítica",
+        urgencyColor: "accent-red",
+        date: "20/05/2024",
+        organization: "Protección Civil",
+        volunteers: 287,
+        description: "Sismo de 7.2 grados causa daños severos en infraestructura y viviendas. Múltiples edificios colapsados y familias sin hogar. Se requiere personal médico especializado, equipos de búsqueda y rescate, y refugios de emergencia para las personas afectadas.",
+        image: "https://images.unsplash.com/photo-1580583248131-8d671c68ac4f?w=800&q=80",
+        resources: "Personal médico / Refugios temporales",
+        progress: 45
+    },
+    {
+        id: 3,
+        title: "Incendio Forestal en Sierra Norte",
+        type: "Incendio Forestal",
+        typeTag: "incendio",
+        location: "Sierra Norte",
+        urgency: "Alta",
+        urgencyColor: "accent-red",
+        date: "18/05/2024",
+        organization: "Bomberos Forestales",
+        volunteers: 98,
+        description: "Múltiples focos activos amenazan comunidades rurales y reservas naturales. Los vientos fuertes dificultan las labores de extinción. Se necesitan brigadistas capacitados, equipo especializado contra incendios y coordinación para evacuaciones preventivas.",
+        image: "https://images.unsplash.com/photo-1603806810176-2d5e1f4c1f04?w=800&q=80",
+        resources: "Equipo contra incendios / Agua",
+        progress: 35
+    },
+    {
+        id: 4,
+        title: "Huracán en Costa Este",
+        type: "Huracán",
+        typeTag: "huracan",
+        location: "Costa Este",
+        urgency: "Media",
+        urgencyColor: "accent-orange",
+        date: "15/05/2024",
+        organization: "Defensa Civil",
+        volunteers: 203,
+        description: "Huracán categoría 3 se aproxima, evacuaciones preventivas en marcha. Las autoridades han establecido refugios temporales y se están distribuyendo suministros de emergencia. Se requiere apoyo logístico para asegurar que todas las familias estén a salvo.",
+        image: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=800&q=80",
+        resources: "Refugios / Alimentos no perecederos",
+        progress: 62
+    },
+    {
+        id: 5,
+        title: "Deslizamiento en Valle Alto",
+        type: "Deslizamiento",
+        typeTag: "deslizamiento",
+        location: "Valle Alto",
+        urgency: "Alta",
+        urgencyColor: "accent-red",
+        date: "22/05/2024",
+        organization: "Rescate Nacional",
+        volunteers: 134,
+        description: "Lluvias intensas provocan deslizamientos que bloquean carreteras principales. Varias comunidades están aisladas sin acceso a servicios básicos. Se necesita maquinaria pesada para despejar rutas y equipos de rescate para asistir a personas atrapadas.",
+        image: "https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&q=80",
+        resources: "Maquinaria pesada / Personal de rescate",
+        progress: 28
+    },
+    {
+        id: 6,
+        title: "Sequía en Región Agrícola",
+        type: "Sequía",
+        typeTag: "sequia",
+        location: "Región Agrícola",
+        urgency: "Media",
+        urgencyColor: "accent-orange",
+        date: "01/05/2024",
+        organization: "Ministerio de Agricultura",
+        volunteers: 76,
+        description: "Prolongada sequía afecta cultivos y suministro de agua para comunidades rurales. Los agricultores están perdiendo sus cosechas y las reservas de agua están al mínimo. Se requieren sistemas de riego temporal y distribución de agua potable.",
+        image: "https://images.unsplash.com/photo-1603716628346-51f9a1a36f17?w=800&q=80",
+        resources: "Sistemas de riego / Agua potable",
+        progress: 51
+    },
+    {
+        id: 7,
+        title: "Inundaciones Urbanas Ciudad Norte",
+        type: "Inundación",
+        typeTag: "inundacion",
+        location: "Ciudad Norte",
+        urgency: "Baja",
+        urgencyColor: "accent-yellow",
+        date: "10/05/2024",
+        organization: "Municipalidad",
+        volunteers: 45,
+        description: "Sistema de drenaje saturado causa inundaciones en zonas bajas de la ciudad. Las aguas estancadas representan riesgos sanitarios. Se necesitan bombas de agua, equipos de limpieza y coordinación para restaurar los servicios afectados.",
+        image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&q=80",
+        resources: "Bombas de agua / Limpieza",
+        progress: 78
+    },
+    {
+        id: 8,
+        title: "Tornado en Llanuras del Oeste",
+        type: "Tornado",
+        typeTag: "tornado",
+        location: "Llanuras del Oeste",
+        urgency: "Alta",
+        urgencyColor: "accent-red",
+        date: "19/05/2024",
+        organization: "Emergencias Regionales",
+        volunteers: 167,
+        description: "Tornados destruyen infraestructura agrícola y residencial en múltiples comunidades. Docenas de familias han perdido sus hogares. Se requieren materiales de construcción, refugios temporales y asistencia para reconstrucción.",
+        image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+        resources: "Materiales de construcción / Refugio",
+        progress: 33
+    },
+    {
+        id: 9,
+        title: "Tsunami en Zona Costera Sur",
+        type: "Tsunami",
+        typeTag: "tsunami",
+        location: "Zona Costera Sur",
+        urgency: "Crítica",
+        urgencyColor: "accent-red",
+        date: "23/05/2024",
+        organization: "Cruz Roja Internacional",
+        volunteers: 312,
+        description: "Alerta de tsunami tras sismo submarino, evacuaciones masivas en proceso. Miles de personas están siendo trasladadas a zonas seguras. Se requiere coordinación urgente para operaciones de evacuación y búsqueda y rescate.",
+        image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&q=80",
+        resources: "Evacuación / Búsqueda y rescate",
+        progress: 15
+    },
+    {
+        id: 10,
+        title: "Helada Severa en Región Montañosa",
+        type: "Helada",
+        typeTag: "helada",
+        location: "Región Montañosa",
+        urgency: "Media",
+        urgencyColor: "accent-orange",
+        date: "12/05/2024",
+        organization: "Protección Civil",
+        volunteers: 89,
+        description: "Temperaturas extremadamente bajas afectan a comunidades aisladas en las montañas. Las familias necesitan ropa de abrigo, sistemas de calefacción y alimentos calientes. El acceso es difícil debido a las condiciones climáticas.",
+        image: "https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=800&q=80",
+        resources: "Ropa de abrigo / Calefacción",
+        progress: 56
+    },
+    {
+        id: 11,
+        title: "Erupción Volcánica en Monte Sur",
+        type: "Erupción Volcánica",
+        typeTag: "volcan",
+        location: "Monte Sur",
+        urgency: "Crítica",
+        urgencyColor: "accent-red",
+        date: "21/05/2024",
+        organization: "Instituto Geológico",
+        volunteers: 245,
+        description: "Actividad volcánica intensa obliga a evacuación de poblados cercanos. Las cenizas volcánicas representan riesgos respiratorios y contaminan las fuentes de agua. Se necesitan máscaras respiratorias, refugios seguros y coordinación de evacuación.",
+        image: "https://images.unsplash.com/photo-1548625149-fc4a29cf7092?w=800&q=80",
+        resources: "Máscaras respiratorias / Evacuación",
+        progress: 41
+    },
+    {
+        id: 12,
+        title: "Granizada Extrema en Valle Central",
+        type: "Granizada",
+        typeTag: "granizo",
+        location: "Valle Central",
+        urgency: "Baja",
+        urgencyColor: "accent-yellow",
+        date: "14/05/2024",
+        organization: "Defensa Civil Local",
+        volunteers: 52,
+        description: "Granizo de gran tamaño daña cultivos y vehículos en la región agrícola. Los agricultores necesitan apoyo para evaluar daños y proteger lo que queda de sus cultivos. Se requieren lonas protectoras y asistencia técnica.",
+        image: "https://images.unsplash.com/photo-1603716628346-51f9a1a36f17?w=800&q=80",
+        resources: "Lonas protectoras / Evaluación de daños",
+        progress: 69
+    }
+    ];
+
+    // Obtener ID del desastre de la URL
+    function getDisasterId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return parseInt(urlParams.get('id')) || 1;
+    }
+
+    // Cargar información del desastre
+    function loadDisasterInfo() {
+    const disasterId = getDisasterId();
+    const disaster = disasters.find(d => d.id === disasterId);
+    
+    if (!disaster) {
+        window.location.href = 'casos_desastres.html';
+        return;
+    }
+    
+    // Hero section
+    document.getElementById('heroSection').style.backgroundImage = `url('${disaster.image}')`;
+    document.getElementById('disasterTitle').textContent = disaster.title;
+    document.getElementById('disasterLocation').querySelector('span:last-child').textContent = disaster.location;
+    
+    // Badges
+    const urgencyBadge = document.getElementById('urgencyBadge');
+    urgencyBadge.textContent = disaster.urgency;
+    urgencyBadge.className = `px-4 py-2 rounded-lg bg-${disaster.urgencyColor} text-white text-sm font-bold`;
+    
+    document.getElementById('typeBadge').textContent = disaster.type;
+    
+    // Descripción
+    document.getElementById('disasterDescription').textContent = disaster.description;
+    
+    // Estadísticas
+    document.getElementById('volunteerCount').textContent = disaster.volunteers;
+    document.getElementById('resourceProgress').textContent = disaster.progress + '%';
+    document.getElementById('disasterDate').textContent = disaster.date;
+    
+    // Progreso de recursos
+    document.getElementById('resourcesNeeded').textContent = 'Recursos Necesarios';
+    document.getElementById('resourcePercentage').textContent = disaster.progress + '%';
+    document.getElementById('resourcesList').textContent = disaster.resources;
+    
+    setTimeout(() => {
+        document.getElementById('progressBar').style.width = disaster.progress + '%';
+    }, 100);
+    
+    // Organización
+    document.getElementById('organizationName').textContent = disaster.organization;
+    }
+
+    // Event listeners para botones
+    document.getElementById('volunteerBtn').addEventListener('click', function() {
+    alert('¡Gracias por tu interés en ser voluntario! Serás redirigido al formulario de registro.');
+    // Aquí podrías redirigir a una página de registro de voluntarios
+    });
+
+    document.getElementById('donateBtn').addEventListener('click', function() {
+    alert('¡Gracias por tu generosidad! Serás redirigido al sistema de donaciones.');
+    // Aquí podrías redirigir a una página de donaciones
+    });
+
+    // Cargar la información al cargar la página
+    window.addEventListener('DOMContentLoaded', loadDisasterInfo);
+    </script>
+
+    </body>
+    </html>

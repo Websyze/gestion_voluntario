@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Directorio de Voluntarios</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0b95da",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101c22",
+            accent: "#FF7A00",
+            "accent-green": "#198754",
+            "accent-red": "#DC3545",
+          },
+          fontFamily: {
+            display: ["Public Sans", "sans-serif"]
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .notif-panel {
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .notif-panel.active {
+      transform: translateX(0);
+    }
+    .notif-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .notif-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+    }
+    .dark .search-bar {
+      background: #1f2937;
+      border-color: #374151;
+    }
+    .search-bar input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #0d171c;
+    }
+    .dark .search-bar input {
+      color: white;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .dark .card {
+      background: #1f2937;
+      border-color: #374151;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      margin: 0 auto 1rem;
+    }
+    .card-name {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #0d171c;
+      margin-bottom: 0.5rem;
+    }
+    .dark .card-name {
+      color: white;
+    }
+    .card-desc {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0 1.5rem 1rem;
+      justify-content: center;
+    }
+    .card-tags span {
+      padding: 0.25rem 0.75rem;
+      background: #0b95da;
+      color: white;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .card-footer {
+      padding: 1rem 1.5rem 1.5rem;
+    }
+    .btn-view {
+      width: 100%;
+      padding: 0.75rem;
+      background: #0b95da;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-view:hover {
+      background: #0a7bb8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100">
+  <div class="relative flex min-h-screen w-full flex-col">
+    <header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+      <div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+        <div class="flex items-center gap-4">
+          <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+          <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de organización</h2>
+        </div>
+        <nav class="hidden md:flex items-center gap-8">
+          <a class="text-sm font-medium leading-normal text-primary hover:text-primary" href="gestion_voluntariado.html">Voluntariado</a>
+          <a class="text-sm font-medium leading-normal hover:text-primary" href="dashboard.html">Dashboard</a>
+          <a class="text-sm font-medium leading-normal hover:text-primary" href="gestion_postulacion.html">Gestion de postulaciones</a>
+          <a class="text-sm font-medium leading-normal hover:text-primary" href="perfil_organizacion.html">Mi organización</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          <button id="notifBtn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          <div onclick="window.location.href='perfil_organizacion.html'" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all" style='background-image: url("https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=200&h=200&fit=crop");'></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- OVERLAY -->
+    <div class="notif-overlay fixed inset-0 bg-black/50 z-40 backdrop-blur-sm" id="notifOverlay"></div>
+
+    <!-- PANEL DE NOTIFICACIONES -->
+    <div class="notif-panel fixed top-0 right-0 h-full w-full sm:w-96 bg-white dark:bg-gray-800 shadow-2xl z-50" id="notifPanel">
+      <div class="flex flex-col h-full">
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Notificaciones</h3>
+          <button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" id="closeNotifBtn">
+            <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">close</span>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto">
+          <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors">
+            <div class="flex gap-3">
+              <div class="flex-shrink-0">
+                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-primary text-xl">person_add</span>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">Nuevo voluntario registrado</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">María López se unió como voluntaria de salud</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 5 minutos</p>
+              </div>
+              <div class="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+          <button class="w-full py-2 text-sm font-medium text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+            Ver todas las notificaciones
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <main class="flex-grow px-4 sm:px-6 lg:px-8 py-8">
+      <div class="container mx-auto max-w-7xl">
+        <div class="mb-8">
+          <h1 class="text-4xl font-black text-gray-900 dark:text-white mb-2">Directorio de Voluntarios</h1>
+          <p class="text-gray-600 dark:text-gray-400">Busca, filtra y encuentra a los voluntarios adecuados para responder a la emergencia.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <!-- SIDEBAR -->
+          <aside class="lg:col-span-1">
+            <div class="sticky top-24 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">Filtros Avanzados</h3>
+              
+              <label class="block mb-4">
+                <span class="text-sm font-medium text-gray-900 dark:text-white mb-2 block">Habilidades Específicas</span>
+                <select class="w-full px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white">
+                  <option>Seleccionar habilidades</option>
+                  <option>Primeros Auxilios</option>
+                  <option>Logística</option>
+                  <option>Comunicación</option>
+                  <option>Ingeniería</option>
+                </select>
+              </label>
+
+              <label class="block mb-4">
+                <span class="text-sm font-medium text-gray-900 dark:text-white mb-2 block">Disponibilidad</span>
+                <select class="w-full px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white">
+                  <option>Cualquier estado</option>
+                  <option>Disponible ahora</option>
+                  <option>Disponible próximamente</option>
+                </select>
+              </label>
+
+              <label class="block mb-6">
+                <span class="text-sm font-medium text-gray-900 dark:text-white mb-2 block">Ubicación</span>
+                <input type="text" class="w-full px-4 py-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white" placeholder="Ej: Ciudad de México">
+              </label>
+
+              <div class="flex flex-col gap-2">
+                <button class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                  Aplicar Filtros
+                </button>
+                <button class="w-full py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                  Limpiar Filtros
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          <!-- LISTA DE VOLUNTARIOS -->
+          <section class="lg:col-span-3">
+            <div class="mb-6">
+              <label class="search-bar">
+                <span class="material-symbols-outlined text-gray-400">search</span>
+                <input type="text" placeholder="Buscar por nombre o palabra clave...">
+              </label>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Tarjeta 1 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/1.jpg")'></div>
+                  <h4 class="card-name">Carlos Ballesteros</h4>
+                  <p class="card-desc">Primeros auxilios con 4 años de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Primeros Auxilios</span><span>Triaje</span><span>Soporte Vital</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 2 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/2.jpg")'></div>
+                  <h4 class="card-name">Daniel Peña</h4>
+                  <p class="card-desc">Enfermero con 3 años de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Primeros Auxilios</span><span>Triaje</span><span>Soporte Vital</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 3 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/women/12.jpg")'></div>
+                  <h4 class="card-name">Ana García</h4>
+                  <p class="card-desc">Enfermera con 7 años de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Primeros Auxilios</span><span>Triaje</span><span>Soporte Vital</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 4 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/10.jpg")'></div>
+                  <h4 class="card-name">Juan Enrique</h4>
+                  <p class="card-desc">Enfermero con 1 año de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Primeros Auxilios</span><span>Triaje</span><span>Soporte Vital</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 5 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/women/5.jpg")'></div>
+                  <h4 class="card-name">María López</h4>
+                  <p class="card-desc">Paramédica con 5 años de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Trauma</span><span>RCP</span><span>Emergencias</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 6 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/15.jpg")'></div>
+                  <h4 class="card-name">Roberto Sánchez</h4>
+                  <p class="card-desc">Ingeniero civil con experiencia en logística.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Logística</span><span>Infraestructura</span><span>Rescate</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 7 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/women/20.jpg")'></div>
+                  <h4 class="card-name">Laura Martínez</h4>
+                  <p class="card-desc">Psicóloga especializada en crisis.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Apoyo Psicológico</span><span>Crisis</span><span>Trauma</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 8 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/25.jpg")'></div>
+                  <h4 class="card-name">Miguel Torres</h4>
+                  <p class="card-desc">Bombero con 8 años de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Rescate</span><span>Combate Incendios</span><span>SAR</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 9 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/women/30.jpg")'></div>
+                  <h4 class="card-name">Patricia Ramírez</h4>
+                  <p class="card-desc">Coordinadora de voluntarios con 6 años.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Coordinación</span><span>Comunicación</span><span>Liderazgo</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 10 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/35.jpg")'></div>
+                  <h4 class="card-name">Fernando Díaz</h4>
+                  <p class="card-desc">Técnico en telecomunicaciones.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Comunicaciones</span><span>Radio</span><span>Tecnología</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 11 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/women/40.jpg")'></div>
+                  <h4 class="card-name">Carmen Flores</h4>
+                  <p class="card-desc">Nutricionista con enfoque comunitario.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Nutrición</span><span>Salud Pública</span><span>Educación</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 12 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/45.jpg")'></div>
+                  <h4 class="card-name">Andrés Morales</h4>
+                  <p class="card-desc">Conductor especializado en transporte de emergencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Transporte</span><span>Logística</span><span>Movilización</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 13 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/women/50.jpg")'></div>
+                  <h4 class="card-name">Sofía Hernández</h4>
+                  <p class="card-desc">Trabajadora social con 4 años de experiencia.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Trabajo Social</span><span>Apoyo Familiar</span><span>Refugios</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+
+              <!-- Tarjeta 14 -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="avatar" style='background-image: url("https://randomuser.me/api/portraits/men/55.jpg")'></div>
+                  <h4 class="card-name">Ricardo Vargas</h4>
+                  <p class="card-desc">Veterinario especializado en rescate animal.</p>
+                </div>
+                <div class="card-tags">
+                  <span>Veterinaria</span><span>Rescate Animal</span><span>Cuidado</span>
+                </div>
+                <div class="card-footer">
+                  <button class="btn-view" onclick="window.location.href='perfiles_voluntarios.html'">Ver Perfil</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const notifBtn = document.getElementById('notifBtn');
+    const notifPanel = document.getElementById('notifPanel');
+    const notifOverlay = document.getElementById('notifOverlay');
+    const closeNotifBtn = document.getElementById('closeNotifBtn');
+
+    function openNotifications() {
+      notifPanel.classList.add('active');
+      notifOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNotifications() {
+      notifPanel.classList.remove('active');
+      notifOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    notifBtn.addEventListener('click', openNotifications);
+    closeNotifBtn.addEventListener('click', closeNotifications);
+    notifOverlay.addEventListener('click', closeNotifications);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && notifPanel.classList.contains('active')) {
+        closeNotifications();
+      }
+    });
+  </script>
+</body>
+</html>

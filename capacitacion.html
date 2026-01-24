@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Capacitación - Plataforma de Voluntariado</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#007BFF",
+              "background-light": "#F8F9FA",
+              "background-dark": "#101c22",
+              "accent-orange": "#FFC107",
+              "accent-red": "#DC3545",
+              "accent-green": "#198754",
+              "text-dark": "#343A40",
+              "text-light": "#F8F9FA",
+            },
+            fontFamily: {
+              display: ["Public Sans", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .progress-ring {
+        transform: rotate(-90deg);
+      }
+
+      .progress-ring-circle {
+        transition: stroke-dashoffset 0.35s;
+      }
+    </style>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light">
+    <header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+      <div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+        <div class="flex items-center gap-4 text-heading-light dark:text-heading-dark">
+          <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+          <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de Voluntariado</h2>
+        </div>
+        <nav class="hidden md:flex items-center gap-8">
+          <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="proyectos.html">Casos de desastre</a>
+          <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="organizaciones.html">Organizaciones</a>
+          <a class="text-sm font-medium leading-normal text-primary dark:text-secondary" href="capacitacion.html">Capacitación</a>
+          <a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="perfil.html">Mi Perfil</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <button id="settingsBtn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          <button id="notifBtn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          <div onclick="window.location.href='perfil.html'" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmbF7_HrmSigUZBAsnaOpRRXw8BZ-5sAYkzQ5o4AxXple2TJ_W45gngFRafRfc33dhsWL7-aGg1_VxwVRqXbqQYVvB1WjXb-AgCoZET1js5hI4IebohZuhUFH-MqQP2AzA_BqBzhqjOZirsLp86ifMnquTbK1j2fsPvJxwQcAoFMzcDEQKJk8GWu4NXYGHLMuUIolUq1-_32jDiogWlSPSknhALsRNJPu5jvyFLmjFVpwymCuCq-OEYwhT8ZJ99R2krnKuLYZlbret");'></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Paneles de Notificaciones y Ajustes -->
+    <div id="notificationPanel" class="fixed top-16 right-4 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 z-50 hidden">
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Notificaciones</h3>
+          <button id="closeNotifPanel" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      </div>
+      <div id="notificationList" class="max-h-96 overflow-y-auto"></div>
+      <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+        <button id="clearAllNotif" class="w-full text-sm text-primary hover:text-blue-700 font-medium">
+          Marcar todas como leídas
+        </button>
+      </div>
+    </div>
+
+    <div id="settingsPanel" class="fixed top-16 right-4 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 z-50 hidden">
+      <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Ajustes</h3>
+          <button id="closeSettingsPanel" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      </div>
+      <div class="p-4 space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">dark_mode</span>
+            <span class="text-sm font-medium text-gray-900 dark:text-white">Modo Oscuro</span>
+          </div>
+          <button id="darkModeToggle" class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-primary transition-colors">
+            <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1 dark:translate-x-6"></span>
+          </button>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">notifications</span>
+            <span class="text-sm font-medium text-gray-900 dark:text-white">Notificaciones</span>
+          </div>
+          <button id="notifToggle" class="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors">
+            <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="flex-1 px-4 py-8 lg:px-10 mx-auto max-w-7xl w-full">
+      <div class="mb-8">
+        <h1 class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] mb-2">
+          Centro de Capacitación
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 text-lg">
+          Desarrolla tus habilidades y conviértete en un mejor voluntario
+        </p>
+      </div>
+
+      <!-- Progreso del Usuario -->
+      <div class="mb-8 bg-gradient-to-r from-primary to-blue-600 rounded-xl p-6 text-white">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h2 class="text-2xl font-bold mb-2">Tu Progreso de Aprendizaje</h2>
+            <p class="opacity-90">Has completado 8 de 20 cursos disponibles</p>
+          </div>
+          <div class="flex items-center gap-6">
+            <div class="text-center">
+              <div class="relative inline-flex items-center justify-center">
+                <svg class="w-24 h-24 progress-ring">
+                  <circle class="text-white/20" stroke="currentColor" stroke-width="6" fill="transparent" r="36" cx="48" cy="48"/>
+                  <circle class="text-white progress-ring-circle" stroke="currentColor" stroke-width="6" fill="transparent" r="36" cx="48" cy="48"
+                    stroke-dasharray="226.19" stroke-dashoffset="90.48"/>
+                </svg>
+                <span class="absolute text-2xl font-bold">40%</span>
+              </div>
+              <p class="mt-2 text-sm opacity-90">Completado</p>
+            </div>
+            <div class="text-left">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-accent-orange">emoji_events</span>
+                <span class="font-bold text-lg">12 Certificados</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent-orange">schedule</span>
+                <span class="font-bold text-lg">48 Horas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda -->
+      <div class="mb-6">
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+          <input 
+            id="searchInput"
+            type="text" 
+            placeholder="Buscar cursos, tutoriales o recursos..."
+            class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="mb-6 flex flex-wrap gap-3">
+        <button class="filter-btn active px-4 py-2 rounded-lg bg-primary text-white font-medium text-sm" data-filter="all">
+          Todos los Cursos
+        </button>
+        <button class="filter-btn px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium text-sm border border-gray-300 dark:border-gray-600" data-filter="en-progreso">
+          En Progreso
+        </button>
+        <button class="filter-btn px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium text-sm border border-gray-300 dark:border-gray-600" data-filter="completados">
+          Completados
+        </button>
+        <button class="filter-btn px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium text-sm border border-gray-300 dark:border-gray-600" data-filter="recomendados">
+          Recomendados
+        </button>
+      </div>
+
+      <!-- Grid de Cursos -->
+      <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
+
+      <!-- Sección de Recursos Descargables -->
+      <div class="mb-12">
+        <h2 class="text-gray-900 dark:text-white text-3xl font-bold mb-6">Recursos Descargables</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-primary cursor-pointer transition-all card-hover">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-accent-red text-3xl">picture_as_pdf</span>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white">Manual de Primeros Auxilios</h4>
+                <p class="text-xs text-gray-500">PDF • 2.5 MB</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-primary cursor-pointer transition-all card-hover">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-accent-green text-3xl">description</span>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white">Guía de Evacuación</h4>
+                <p class="text-xs text-gray-500">PDF • 1.8 MB</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-primary cursor-pointer transition-all card-hover">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-accent-orange text-3xl">checklist</span>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white">Checklist de Emergencias</h4>
+                <p class="text-xs text-gray-500">PDF • 850 KB</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-primary cursor-pointer transition-all card-hover">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-accent-orange text-3xl">map</span>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white">Mapas de Rutas Seguras</h4>
+                <p class="text-xs text-gray-500">PDF • 3.2 MB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificaciones Obtenidas -->
+      <div>
+        <h2 class="text-gray-900 dark:text-white text-3xl font-bold mb-6">Mis Certificaciones</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-gradient-to-br from-accent-orange to-yellow-600 rounded-xl p-6 text-white relative overflow-hidden card-hover">
+            <div class="absolute top-0 right-0 opacity-10">
+              <span class="material-symbols-outlined" style="font-size: 120px;">workspace_premium</span>
+            </div>
+            <div class="relative z-10">
+              <span class="material-symbols-outlined text-5xl mb-4">verified</span>
+              <h3 class="text-xl font-bold mb-2">Primeros Auxilios Básicos</h3>
+              <p class="text-sm opacity-90 mb-4">Completado el 15/03/2024</p>
+              <button class="px-4 py-2 bg-white text-accent-orange rounded-lg font-bold text-sm hover:bg-yellow-50 transition-colors">
+                Descargar Certificado
+              </button>
+            </div>
+          </div>
+          <div class="bg-gradient-to-br from-primary to-blue-700 rounded-xl p-6 text-white relative overflow-hidden card-hover">
+            <div class="absolute top-0 right-0 opacity-10">
+              <span class="material-symbols-outlined" style="font-size: 120px;">workspace_premium</span>
+            </div>
+            <div class="relative z-10">
+              <span class="material-symbols-outlined text-5xl mb-4">verified</span>
+              <h3 class="text-xl font-bold mb-2">Gestión de Emergencias</h3>
+              <p class="text-sm opacity-90 mb-4">Completado el 22/04/2024</p>
+              <button class="px-4 py-2 bg-white text-primary rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
+                Descargar Certificado
+              </button>
+            </div>
+          </div>
+          <div class="bg-gradient-to-br from-accent-green to-green-700 rounded-xl p-6 text-white relative overflow-hidden card-hover">
+            <div class="absolute top-0 right-0 opacity-10">
+              <span class="material-symbols-outlined" style="font-size: 120px;">workspace_premium</span>
+            </div>
+            <div class="relative z-10">
+              <span class="material-symbols-outlined text-5xl mb-4">verified</span>
+              <h3 class="text-xl font-bold mb-2">Comunicación en Crisis</h3>
+              <p class="text-sm opacity-90 mb-4">Completado el 08/05/2024</p>
+              <button class="px-4 py-2 bg-white text-accent-green rounded-lg font-bold text-sm hover:bg-green-50 transition-colors">
+                Descargar Certificado
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 mt-12 border-t border-gray-200 dark:border-gray-700">
+      <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+          <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+            © 2024 AyudaActiva. Todos los derechos reservados.
+          </p>
+          <div class="flex space-x-6">
+            <a class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">Contacto</a>
+            <a class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">Términos de Servicio</a>
+            <a class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" href="#">Política de Privacidad</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Modal de Curso -->
+    <div id="courseModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 flex items-center justify-between z-10">
+          <h3 id="modalTitle" class="text-2xl font-bold text-gray-900 dark:text-white"></h3>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <span class="material-symbols-outlined text-3xl">close</span>
+          </button>
+        </div>
+        <div id="modalContent" class="p-6"></div>
+      </div>
+    </div>
+
+    <script>
+      const courses = [
+        {
+          id: 1,
+          title: "Primeros Auxilios Avanzados",
+          category: "Primeros Auxilios",
+          level: "Avanzado",
+          duration: "8 horas",
+          lessons: 12,
+          enrolled: 1247,
+          rating: 4.9,
+          progress: 0,
+          status: "nuevo",
+          instructor: "Dr. María González",
+          image: "https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=800&q=80",
+          description: "Aprende técnicas avanzadas de primeros auxilios para situaciones de emergencia críticas.",
+          topics: ["RCP Avanzado", "Control de Hemorragias", "Manejo de Trauma", "Inmovilización"]
+        },
+        {
+          id: 2,
+          title: "Gestión de Desastres Naturales",
+          category: "Gestión de Emergencias",
+          level: "Intermedio",
+          duration: "6 horas",
+          lessons: 10,
+          enrolled: 892,
+          rating: 4.8,
+          progress: 45,
+          status: "en-progreso",
+          instructor: "Ing. Carlos Ramírez",
+          image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&q=80",
+          description: "Estrategias y protocolos para la gestión efectiva de desastres naturales.",
+          topics: ["Evaluación de Riesgos", "Planificación", "Coordinación", "Respuesta Rápida"]
+        },
+        {
+          id: 3,
+          title: "Comunicación Efectiva en Crisis",
+          category: "Comunicación",
+          level: "Básico",
+          duration: "4 horas",
+          lessons: 8,
+          enrolled: 1543,
+          rating: 4.7,
+          progress: 100,
+          status: "completado",
+          instructor: "Lic. Ana Martínez",
+          image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80",
+          description: "Desarrolla habilidades de comunicación para situaciones de alta presión.",
+          topics: ["Escucha Activa", "Empatía", "Manejo de Conflictos", "Comunicación No Verbal"]
+        },
+        {
+          id: 4,
+          title: "Liderazgo en Equipos de Emergencia",
+          category: "Liderazgo",
+          level: "Avanzado",
+          duration: "10 horas",
+          lessons: 15,
+          enrolled: 678,
+          rating: 4.9,
+          progress: 30,
+          status: "en-progreso",
+          instructor: "Cdte. Roberto Fernández",
+          image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+          description: "Conviértete en un líder efectivo durante situaciones de emergencia.",
+          topics: ["Toma de Decisiones", "Delegación", "Motivación", "Gestión de Estrés"]
+        },
+        {
+          id: 5,
+          title: "Logística y Distribución de Recursos",
+          category: "Logística",
+          level: "Intermedio",
+          duration: "7 horas",
+          lessons: 11,
+          enrolled: 945,
+          rating: 4.6,
+          progress: 0,
+          status: "nuevo",
+          instructor: "Lic. Patricia Morales",
+          image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
+          description: "Optimiza la distribución de recursos en situaciones de emergencia.",
+          topics: ["Inventario", "Distribución", "Almacenamiento", "Transporte"]
+        },
+        {
+          id: 6,
+          title: "Psicología en Emergencias",
+          category: "Salud Mental",
+          level: "Básico",
+          duration: "5 horas",
+          lessons: 9,
+          enrolled: 1234,
+          rating: 4.8,
+          progress: 100,
+          status: "completado",
+          instructor: "Psic. Laura Ruiz",
+          image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",
+          description: "Aprende a manejar el impacto psicológico de las emergencias.",
+          topics: ["Trauma", "Estrés Postraumático", "Apoyo Emocional", "Autocuidado"]
+        },
+        {
+          id: 7,
+          title: "Búsqueda y Rescate Urbano",
+          category: "Rescate",
+          level: "Avanzado",
+          duration: "12 horas",
+          lessons: 16,
+          enrolled: 567,
+          rating: 4.9,
+          progress: 0,
+          status: "recomendado",
+          instructor: "Cdte. Miguel Sánchez",
+          image: "https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&q=80",
+          description: "Técnicas especializadas de búsqueda y rescate en entornos urbanos.",
+          topics: ["Localización", "Extracción", "Seguridad", "Equipamiento"]
+        },
+        {
+          id: 8,
+          title: "Evacuación Masiva y Refugios",
+          category: "Gestión de Emergencias",
+          level: "Intermedio",
+          duration: "6 horas",
+          lessons: 10,
+          enrolled: 823,
+          rating: 4.7,
+          progress: 65,
+          status: "en-progreso",
+          instructor: "Ing. Sandra López",
+          image: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=800&q=80",
+          description: "Planificación y ejecución de evacuaciones masivas efectivas.",
+          topics: ["Rutas de Evacuación", "Gestión de Refugios", "Logística", "Comunicación"]
+        },
+        {
+          id: 9,
+          title: "Trabajo en Equipo bajo Presión",
+          category: "Liderazgo",
+          level: "Básico",
+          duration: "4 horas",
+          lessons: 7,
+          enrolled: 1876,
+          rating: 4.8,
+          progress: 100,
+          status: "completado",
+          instructor: "Lic. Fernando Castro",
+          image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
+          description: "Mejora la colaboración y coordinación en situaciones de alta presión.",
+          topics: ["Coordinación", "Resolución de Conflictos", "Adaptabilidad", "Comunicación"]
+        }
+      ];
+
+      function getLevelColor(level) {
+        const colors = {
+          "Básico": "bg-accent-green text-white",
+          "Intermedio": "bg-accent-orange text-white",
+          "Avanzado": "bg-accent-red text-white"
+        };
+        return colors[level] || colors["Básico"];
+      }
+
+      function getStatusBadge(status, progress) {
+        if (status === "completado") {
+          return '<span class="px-3 py-1 rounded-lg bg-accent-green text-white text-xs font-bold">✓ Completado</span>';
+        } else if (status === "en-progreso") {
+          return `<span class="px-3 py-1 rounded-lg bg-primary text-white text-xs font-bold">${progress}% En progreso</span>`;
+        } else if (status === "recomendado") {
+          return '<span class="px-3 py-1 rounded-lg bg-accent-orange text-white text-xs font-bold">⭐ Recomendado</span>';
+        }
+        return '<span class="px-3 py-1 rounded-lg bg-gray-500 text-white text-xs font-bold">Nuevo</span>';
+      }
+
+      function createCourseCard(course) {
+        const statusBadge = getStatusBadge(course.status, course.progress);
+        const levelColor = getLevelColor(course.level);
+        
+        return `
+          <div class="course-card card-hover bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden" data-status="${course.status}">
+            <div class="relative h-48 bg-cover bg-center" style="background-image: url('${course.image}')">
+              <div class="absolute top-3 left-3">
+                ${statusBadge}
+              </div>
+              <div class="absolute top-3 right-3">
+                <span class="px-3 py-1 rounded-lg ${levelColor} text-xs font-bold">${course.level}</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span class="material-symbols-outlined text-primary text-sm">category</span>
+                <span>${course.category}</span>
+              </div>
+              <h3 class="text-gray-900 dark:text-white text-xl font-bold mb-2">${course.title}</h3>
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">${course.description}</p>
+              
+              <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-primary text-lg">schedule</span>
+                  <span>${course.duration}</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-primary text-lg">play_circle</span>
+                  <span>${course.lessons} lecciones</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 mb-4">
+                <div class="flex items-center">
+                  <span class="text-accent-orange">★</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white ml-1">${course.rating}</span>
+                </div>
+                <span class="text-sm text-gray-500 dark:text-gray-400">(${course.enrolled} inscritos)</span>
+              </div>
+
+              ${course.progress > 0 ? `
+                <div class="mb-4">
+                  <div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    <span>Progreso</span>
+                    <span>${course.progress}%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div class="bg-accent-green rounded-full h-2" style="width: ${course.progress}%"></div>
+                  </div>
+                </div>
+              ` : ''}
+              
+              <button onclick="openCourseModal(${course.id})" class="w-full py-3 ${course.status === 'completado' ? 'bg-gray-600' : 'bg-primary'} text-white rounded-lg font-bold text-sm hover:opacity-90 transition-colors">
+                ${course.status === 'completado' ? 'Ver Certificado' : course.progress > 0 ? 'Continuar Curso' : 'Comenzar Curso'}
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderCourses(filteredCourses) {
+        const grid = document.getElementById('coursesGrid');
+        grid.innerHTML = filteredCourses.map(createCourseCard).join('');
+      }
+
+      function openCourseModal(courseId) {
+        const course = courses.find(c => c.id === courseId);
+        if (!course) return;
+
+        const modal = document.getElementById('courseModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+
+        modalTitle.textContent = course.title;
+        modalContent.innerHTML = `
+          <div class="space-y-6">
+            <img src="${course.image}" alt="${course.title}" class="w-full h-64 object-cover rounded-lg">
+            
+            <div class="flex flex-wrap gap-3">
+              <span class="px-4 py-2 rounded-lg ${getLevelColor(course.level)} font-bold">${course.level}</span>
+              <span class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-bold flex items-center gap-2">
+                <span class="material-symbols-outlined">schedule</span>
+                ${course.duration}
+              </span>
+              <span class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-bold flex items-center gap-2">
+                <span class="material-symbols-outlined">play_circle</span>
+                ${course.lessons} lecciones
+              </span>
+              <span class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white font-bold flex items-center gap-2">
+                <span class="text-accent-orange">★</span>
+                ${course.rating}
+              </span>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Descripción del Curso</h4>
+              <p class="text-gray-600 dark:text-gray-300">${course.description}</p>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Instructor</h4>
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
+                  ${course.instructor.split(' ')[0][0]}${course.instructor.split(' ')[1][0]}
+                </div>
+                <div>
+                  <p class="font-bold text-gray-900 dark:text-white">${course.instructor}</p>
+                  <p class="text-sm text-gray-500">Instructor Certificado</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Temas que Aprenderás</h4>
+              <div class="grid grid-cols-2 gap-3">
+                ${course.topics.map(topic => `
+                  <div class="flex items-center gap-2 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+                    <span class="material-symbols-outlined text-accent-green">check_circle</span>
+                    <span class="text-sm text-gray-900 dark:text-white font-medium">${topic}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Contenido del Curso</h4>
+              <div class="space-y-2">
+                ${Array.from({length: course.lessons}, (_, i) => `
+                  <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer transition-colors">
+                    <div class="flex items-center gap-3">
+                      <span class="material-symbols-outlined text-primary">play_circle</span>
+                      <div>
+                        <p class="font-bold text-gray-900 dark:text-white">Lección ${i + 1}: ${['Introducción', 'Fundamentos', 'Práctica', 'Técnicas Avanzadas', 'Casos de Estudio', 'Aplicación Práctica', 'Evaluación', 'Certificación'][i % 8]}</p>
+                        <p class="text-xs text-gray-500">${Math.floor(Math.random() * 20) + 10} minutos</p>
+                      </div>
+                    </div>
+                    ${i < course.lessons * (course.progress / 100) ? '<span class="material-symbols-outlined text-accent-green">check_circle</span>' : '<span class="material-symbols-outlined text-gray-300">lock</span>'}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <button class="flex-1 py-4 ${course.status === 'completado' ? 'bg-gray-600' : 'bg-primary'} text-white rounded-lg font-bold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined">${course.status === 'completado' ? 'workspace_premium' : 'play_arrow'}</span>
+                ${course.status === 'completado' ? 'Descargar Certificado' : course.progress > 0 ? 'Continuar Curso' : 'Comenzar Curso'}
+              </button>
+              ${course.status !== 'completado' ? `
+                <button class="px-6 py-4 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
+                  <span class="material-symbols-outlined">bookmark</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      // Modal
+      document.getElementById('closeModal').addEventListener('click', function() {
+        const modal = document.getElementById('courseModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      });
+
+      document.getElementById('courseModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.add('hidden');
+          this.classList.remove('flex');
+        }
+      });
+
+      // Filtros
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-primary', 'text-white');
+            b.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-600');
+          });
+
+          this.classList.add('active', 'bg-primary', 'text-white');
+          this.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-600');
+
+          const filter = this.dataset.filter;
+          let filtered = courses;
+
+          if (filter === 'en-progreso') {
+            filtered = courses.filter(c => c.status === 'en-progreso');
+          } else if (filter === 'completados') {
+            filtered = courses.filter(c => c.status === 'completado');
+          } else if (filter === 'recomendados') {
+            filtered = courses.filter(c => c.status === 'recomendado' || c.rating >= 4.8);
+          }
+
+          renderCourses(filtered);
+        });
+      });
+
+      // Búsqueda
+      document.getElementById('searchInput').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const filtered = courses.filter(c =>
+          c.title.toLowerCase().includes(searchTerm) ||
+          c.category.toLowerCase().includes(searchTerm) ||
+          c.description.toLowerCase().includes(searchTerm) ||
+          c.instructor.toLowerCase().includes(searchTerm)
+        );
+        renderCourses(filtered);
+      });
+
+      // Notificaciones
+      const notifications = [
+        {
+          id: 1,
+          type: 'curso',
+          icon: 'school',
+          iconColor: 'text-primary',
+          title: 'Nuevo curso disponible',
+          message: 'Se ha agregado "Búsqueda y Rescate Urbano" al catálogo',
+          time: 'Hace 1 hora',
+          unread: true
+        },
+        {
+          id: 2,
+          type: 'certificado',
+          icon: 'workspace_premium',
+          iconColor: 'text-accent-orange',
+          title: 'Certificado listo',
+          message: 'Tu certificado de "Comunicación en Crisis" está disponible',
+          time: 'Hace 3 horas',
+          unread: true
+        },
+        {
+          id: 3,
+          type: 'progreso',
+          icon: 'trending_up',
+          iconColor: 'text-accent-green',
+          title: 'Progreso actualizado',
+          message: 'Has completado el 40% de tu formación',
+          time: 'Ayer',
+          unread: false
+        }
+      ];
+
+      function createNotificationItem(notif) {
+        return `
+          <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 cursor-pointer transition-colors ${notif.unread ? 'bg-blue-50 dark:bg-gray-750' : ''}">
+            <div class="flex gap-3">
+              <span class="material-symbols-outlined ${notif.iconColor} text-2xl">${notif.icon}</span>
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-1">
+                  <h4 class="text-sm font-bold text-gray-900 dark:text-white">${notif.title}</h4>
+                  ${notif.unread ? '<span class="w-2 h-2 bg-blue-500 rounded-full"></span>' : ''}
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">${notif.message}</p>
+                <span class="text-xs text-gray-500 dark:text-gray-500">${notif.time}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderNotifications() {
+        const notifList = document.getElementById('notificationList');
+        notifList.innerHTML = notifications.map(createNotificationItem).join('');
+        
+        const unreadCount = notifications.filter(n => n.unread).length;
+        const notifIndicator = document.querySelector('#notifBtn .bg-red-500');
+        if (unreadCount > 0) {
+          notifIndicator.classList.remove('hidden');
+        } else {
+          notifIndicator.classList.add('hidden');
+        }
+      }
+
+      // Paneles de notificaciones y ajustes
+      const notifBtn = document.getElementById('notifBtn');
+      const notifPanel = document.getElementById('notificationPanel');
+      const closeNotifPanel = document.getElementById('closeNotifPanel');
+      const clearAllNotif = document.getElementById('clearAllNotif');
+      const settingsBtn = document.getElementById('settingsBtn');
+      const settingsPanel = document.getElementById('settingsPanel');
+      const closeSettingsPanel = document.getElementById('closeSettingsPanel');
+
+      notifBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        notifPanel.classList.toggle('hidden');
+        settingsPanel.classList.add('hidden');
+      });
+
+      closeNotifPanel.addEventListener('click', function() {
+        notifPanel.classList.add('hidden');
+      });
+
+      clearAllNotif.addEventListener('click', function() {
+        notifications.forEach(n => n.unread = false);
+        renderNotifications();
+      });
+
+      settingsBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        settingsPanel.classList.toggle('hidden');
+        notifPanel.classList.add('hidden');
+      });
+
+      closeSettingsPanel.addEventListener('click', function() {
+        settingsPanel.classList.add('hidden');
+      });
+
+      // Modo oscuro
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const html = document.documentElement;
+      
+      if (localStorage.getItem('darkMode') === 'true' || 
+          (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        html.classList.add('dark');
+      }
+
+      darkModeToggle.addEventListener('click', function() {
+        html.classList.toggle('dark');
+        localStorage.setItem('darkMode', html.classList.contains('dark'));
+      });
+
+      // Toggle de notificaciones
+      const notifToggle = document.getElementById('notifToggle');
+      notifToggle.addEventListener('click', function() {
+        this.querySelector('span').classList.toggle('translate-x-6');
+        this.querySelector('span').classList.toggle('translate-x-1');
+        this.classList.toggle('bg-primary');
+        this.classList.toggle('bg-gray-200');
+      });
+
+      // Cerrar paneles al hacer click fuera
+      document.addEventListener('click', function(e) {
+        if (!notifPanel.contains(e.target) && !notifBtn.contains(e.target)) {
+          notifPanel.classList.add('hidden');
+        }
+        if (!settingsPanel.contains(e.target) && !settingsBtn.contains(e.target)) {
+          settingsPanel.classList.add('hidden');
+        }
+      });
+
+      // Inicializar
+      renderCourses(courses);
+      renderNotifications();
+    </script>
+  </body>
+</html>

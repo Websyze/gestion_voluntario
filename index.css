@@ -1,0 +1,138 @@
+/* ====== VARIABLES ====== */
+:root {
+  --primary: #005a9c;
+  --accent: #ff7a59;
+  --light-bg: #f4f4f4;
+  --dark-bg: #101c22;
+  --text-light: #333;
+  --text-dark: #f4f4f4;
+}
+
+/* ====== ELEMENTOS ====== */
+body {
+  font-family: "Public Sans", sans-serif;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+
+.btn-accent:hover {
+  background: #ff6a40;
+}
+
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZfXZRtjpgCRXnFABAAzXEDCQT2W6IVk7kv9CZfJCJqtGBZRt0x-muJwT60ztYTcMXIajLPOm7jtDb80vJMWfqE1X1R5KAXppy897OcIF24RK_Ow1P06Bsr6uaHt5fiJ5rZeJ-uEj4z2kUIzpg5Pxgt6YThXobW05Qmd-Cj6bzVGdRwQTxbCxIoGQR9eXMuddQMRZEjXCpYqCjbbFZXtDnS0NVobrfdMCL8VZuprj0gBkjpiyHuYqRGnzDhamMDFLJ-rF9_fIOjx6N")
+      center/cover no-repeat;
+}
+
+.btn-hero {
+  display: inline-block;
+  margin-top: 2rem;
+  background: var(--accent);
+  color: white;
+  padding: 0.9rem 2rem;
+  border-radius: 0.6rem;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+
+.btn-hero:hover {
+  transform: scale(1.05);
+  background: #ff6a40;
+}
+
+.section-light {
+  padding: 4rem 0;
+  background: var(--light-bg);
+}
+
+.section-title {
+  text-align: center;
+  color: var(--primary);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+}
+
+.card {
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.mision-section {
+  background: var(--primary);
+  color: white;
+  padding: 5rem 0;
+}
+
+.input-field {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 90, 156, 0.2);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 0.9rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #00437a;
+}
+
+.footer {
+  background: #0b1a2a;
+  color: #ddd;
+  text-align: center;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es" class="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma de Voluntariado</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#007BFF",
+            "background-light": "#F8F9FA",
+            "background-dark": "#101c22",
+            "accent-orange": "#FFC107",
+            "accent-red": "#DC3545",
+            "accent-green": "#198754",
+            "text-dark": "#343A40",
+            "text-light": "#F8F9FA",
+          },
+          fontFamily: {
+            display: ["Public Sans", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .gradient-hero {
+      background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%);
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, rgba(0, 86, 179, 0.05) 100%);
+      border: 1px solid rgba(0, 123, 255, 0.2);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .image-overlay {
+      position: relative;
+    }
+
+    .image-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 123, 255, 0.2) 0%, rgba(255, 193, 7, 0.1) 100%);
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-dark dark:text-text-light">
+  <div id="root" class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+            <h1 class="text-xl font-bold text-text-dark dark:text-text-light">Voluntarios en Acción</h1>
+          </div>
+
+          <nav class="hidden md:flex items-center gap-8">
+            <a href="#inicio"
+              class="text-sm font-medium text-text-dark dark:text-text-light hover:text-primary transition-colors">Inicio</a>
+            <a href="#sobre-nosotros"
+              class="text-sm font-medium text-text-dark dark:text-text-light hover:text-primary transition-colors">Sobre
+              Nosotros</a>
+            <a href="#que-hacemos"
+              class="text-sm font-medium text-text-dark dark:text-text-light hover:text-primary transition-colors">¿Qué
+              Hacemos?</a>
+            <a href="#impacto"
+              class="text-sm font-medium text-text-dark dark:text-text-light hover:text-primary transition-colors">Impacto</a>
+            <a href="#testimonios"
+              class="text-sm font-medium text-text-dark dark:text-text-light hover:text-primary transition-colors">Testimonios</a>
+            <a href="#contactos"
+              class="text-sm font-medium text-text-dark dark:text-text-light hover:text-primary transition-colors">Contactos</a>
+          </nav>
+
+          <div class="flex items-center gap-3">
+            <button id="darkModeToggle"
+              class="flex items-center justify-center rounded-lg h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+              <span class="material-symbols-outlined text-text-dark dark:text-text-light">dark_mode</span>
+            </button>
+            <a href="login.html"
+              class="hidden md:flex items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-md hover:bg-blue-600 transition-colors">
+              Regístrate
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-grow">
+
+      <!-- Hero Section -->
+      <section id="inicio" class="relative min-h-screen flex items-center justify-center py-20 lg:py-0">
+        <div class="absolute inset-0 overflow-hidden">
+          <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-orange/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-4 text-center max-w-3xl">
+          <span class="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-bold mb-6">
+            🚀 Conectamos Voluntarios con Propósito
+          </span>
+
+          <h2 class="text-5xl md:text-7xl font-black leading-tight text-text-dark dark:text-text-light mb-6">
+            Salva Vidas en Momentos de Crisis
+          </h2>
+
+          <p class="text-lg md:text-xl text-text-dark/70 dark:text-text-light/70 mb-8 leading-relaxed">
+            Nuestra plataforma conecta voluntarios comprometidos con organizaciones humanitarias para responder
+            rápidamente a desastres naturales y emergencias comunitarias. Juntos hacemos la diferencia.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="login.html"
+              class="flex items-center justify-center rounded-lg h-12 px-8 bg-primary text-white font-bold shadow-lg hover:bg-blue-600 transition-all transform hover:scale-105">
+              Regístrate Ahora
+            </a>
+            <button onclick="document.getElementById('que-hacemos').scrollIntoView({behavior: 'smooth'})"
+              class="flex items-center justify-center rounded-lg h-12 px-8 bg-gray-200 dark:bg-gray-800 text-text-dark dark:text-text-light font-bold hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+              Descubre Más
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Estadísticas -->
+      <section id="impacto"
+        class="py-16 md:py-24 bg-gradient-to-r from-primary/10 to-accent-orange/10 dark:from-primary/5 dark:to-accent-orange/5">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-12">
+            <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">Nuestro Impacto</h3>
+            <p class="text-lg text-text-dark/60 dark:text-text-light/60">Números que hablan por sí solos</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="stat-card rounded-xl p-8 text-center card-hover">
+              <span class="material-symbols-outlined text-primary text-5xl mb-3 block">groups</span>
+              <h3 class="text-3xl md:text-4xl font-black text-primary mb-2">12,547</h3>
+              <p class="text-text-dark/60 dark:text-text-light/60 font-medium">Voluntarios Activos</p>
+            </div>
+
+            <div class="stat-card rounded-xl p-8 text-center card-hover">
+              <span class="material-symbols-outlined text-accent-green text-5xl mb-3 block">check_circle</span>
+              <h3 class="text-3xl md:text-4xl font-black text-accent-green mb-2">2,890</h3>
+              <p class="text-text-dark/60 dark:text-text-light/60 font-medium">Misiones Completadas</p>
+            </div>
+
+            <div class="stat-card rounded-xl p-8 text-center card-hover">
+              <span class="material-symbols-outlined text-accent-orange text-5xl mb-3 block">emergency</span>
+              <h3 class="text-3xl md:text-4xl font-black text-accent-orange mb-2">156</h3>
+              <p class="text-text-dark/60 dark:text-text-light/60 font-medium">Emergencias Atendidas</p>
+            </div>
+
+            <div class="stat-card rounded-xl p-8 text-center card-hover">
+              <span class="material-symbols-outlined text-accent-red text-5xl mb-3 block">favorite</span>
+              <h3 class="text-3xl md:text-4xl font-black text-accent-red mb-2">58K+</h3>
+              <p class="text-text-dark/60 dark:text-text-light/60 font-medium">Personas Ayudadas</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sobre Nosotros -->
+      <section id="sobre-nosotros" class="py-16 md:py-24">
+        <div class="container mx-auto px-4">
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="relative h-96 rounded-xl overflow-hidden shadow-2xl image-overlay">
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
+                alt="Equipo de voluntarios trabajando juntos" class="w-full h-full object-cover" />
+            </div>
+
+            <div>
+              <span class="inline-block px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-bold mb-4">
+                Nuestra Historia
+              </span>
+              <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-6">
+                Somos Tu Aliado en la Emergencia
+              </h3>
+
+              <p class="text-text-dark/70 dark:text-text-light/70 mb-6 leading-relaxed">
+                Fundada en 2020, nuestra organización nació con una misión clara: cerrar la brecha entre aquellos que
+                desean ayudar y las comunidades que necesitan asistencia urgente. A través de tecnología innovadora y un
+                compromiso inquebrantable con la excelencia, hemos transformado la forma en que respondemos a desastres.
+              </p>
+
+              <div class="space-y-5">
+                <div class="flex gap-4">
+                  <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">check</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-text-dark dark:text-text-light mb-1">Conexión Instantánea</h4>
+                    <p class="text-text-dark/70 dark:text-text-light/70 text-sm">Conectamos voluntarios con emergencias
+                      en tiempo real, 24/7</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-4">
+                  <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-accent-green/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-accent-green">check</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-text-dark dark:text-text-light mb-1">Equipos Organizados</h4>
+                    <p class="text-text-dark/70 dark:text-text-light/70 text-sm">Gestión eficiente de recursos y
+                      voluntarios en el terreno</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-4">
+                  <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-accent-orange/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-accent-orange">check</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-text-dark dark:text-text-light mb-1">Capacitación Integral</h4>
+                    <p class="text-text-dark/70 dark:text-text-light/70 text-sm">Formación profesional para actuar con
+                      seguridad y efectividad</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Qué Hacemos -->
+<section id="que-hacemos" class="py-16 md:py-24 bg-background-light/50 dark:bg-background-dark/50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">
+        ¿Qué Hacemos?
+      </h3>
+      <p class="text-lg text-text-dark/60 dark:text-text-light/60 max-w-2xl mx-auto">
+        Ofrecemos una suite completa de herramientas para facilitar el voluntariado efectivo en situaciones de
+        emergencia.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Conexión Rápida -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden card-hover shadow-md">
+        <div class="h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=800&q=80"
+            alt="Conexión rápida entre voluntarios" class="w-full h-full object-cover" />
+        </div>
+        <div class="p-8">
+          <div class="feature-icon bg-primary/20 text-primary mb-4">
+            <span class="material-symbols-outlined">connect_without_contact</span>
+          </div>
+          <h4 class="text-xl font-bold text-text-dark dark:text-text-light mb-3">
+            Conexión Rápida
+          </h4>
+          <p class="text-text-dark/70 dark:text-text-light/70 leading-relaxed">
+            Registro instantáneo de voluntarios y conexión inmediata con organizaciones verificadas en zonas de
+            desastre. Tu perfil estará disponible en segundos.
+          </p>
+        </div>
+      </div>
+
+      <!-- Gestión de Equipos -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden card-hover shadow-md">
+        <div class="h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80"
+            alt="Gestión de equipos de emergencia" class="w-full h-full object-cover" />
+        </div>
+        <div class="p-8">
+          <div class="feature-icon bg-accent-green/20 text-accent-green mb-4">
+            <span class="material-symbols-outlined">groups</span>
+          </div>
+          <h4 class="text-xl font-bold text-text-dark dark:text-text-light mb-3">
+            Gestión de Equipos
+          </h4>
+          <p class="text-text-dark/70 dark:text-text-light/70 leading-relaxed">
+            Herramientas avanzadas para que las organizaciones gestionen equipos, asignen tareas y coordinen esfuerzos
+            de forma centralizada y eficiente.
+          </p>
+        </div>
+      </div>
+
+      <!-- Capacitación Profesional -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden card-hover shadow-md">
+         <div class="h-48 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80"
+            alt="Capacitación profesional en emergencias" class="w-full h-full object-cover" />
+        </div>
+        <div class="p-8">
+          <div class="feature-icon bg-accent-orange/20 text-accent-orange mb-4">
+            <span class="material-symbols-outlined">school</span>
+          </div>
+          <h4 class="text-xl font-bold text-text-dark dark:text-text-light mb-3">
+            Capacitación Profesional
+          </h4>
+          <p class="text-text-dark/70 dark:text-text-light/70 leading-relaxed">
+            Recursos y cursos en línea para preparar voluntarios con técnicas seguras y efectivas. Certificaciones
+            reconocidas a nivel nacional.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+  <!-- Características Principales -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">
+          Por Qué Elegirnos
+        </h3>
+        <p class="text-lg text-text-dark/60 dark:text-text-light/60">Razones por las que somos líderes en
+          voluntariado de emergencia</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 card-hover shadow-md flex gap-4">
+          <div class="flex-shrink-0">
+            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/20">
+              <span class="material-symbols-outlined text-primary text-2xl">verified</span>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-text-dark dark:text-text-light mb-2">Verificación Rigurosa</h4>
+            <p class="text-text-dark/70 dark:text-text-light/70">Todos los voluntarios y organizaciones son
+              verificados exhaustivamente para garantizar seguridad y confianza.</p>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 card-hover shadow-md flex gap-4">
+          <div class="flex-shrink-0">
+            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-accent-green/20">
+              <span class="material-symbols-outlined text-accent-green text-2xl">speed</span>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-text-dark dark:text-text-light mb-2">Respuesta Rápida</h4>
+            <p class="text-text-dark/70 dark:text-text-light/70">Con nuestro sistema, los voluntarios se conectan en
+              minutos, no en horas. Cada segundo cuenta.</p>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 card-hover shadow-md flex gap-4">
+          <div class="flex-shrink-0">
+            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-accent-orange/20">
+              <span class="material-symbols-outlined text-accent-orange text-2xl">analytics</span>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-text-dark dark:text-text-light mb-2">Análisis en Tiempo Real</h4>
+            <p class="text-text-dark/70 dark:text-text-light/70">Dashboards intuitivos que te muestran el estado de
+              cada operación y voluntario en el terreno.</p>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 card-hover shadow-md flex gap-4">
+          <div class="flex-shrink-0">
+            <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-accent-red/20">
+              <span class="material-symbols-outlined text-accent-red text-2xl">support_agent</span>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-text-dark dark:text-text-light mb-2">Soporte 24/7</h4>
+            <p class="text-text-dark/70 dark:text-text-light/70">Nuestro equipo está disponible en todo momento para
+              asistirte ante cualquier inconveniente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios -->
+  <section id="testimonios" class="py-16 md:py-24 bg-background-light/50 dark:bg-background-dark/50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">
+          Lo Que Dicen Nuestros Voluntarios
+        </h3>
+        <p class="text-lg text-text-dark/60 dark:text-text-light/60">Historias reales de impacto y cambio</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md card-hover">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Carlos"
+              class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <h4 class="font-bold text-text-dark dark:text-text-light">Carlos Mendez</h4>
+              <p class="text-sm text-text-dark/60 dark:text-text-light/60">Voluntario Médico</p>
+            </div>
+          </div>
+          <div class="flex gap-1 mb-4">
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+          </div>
+          <p class="text-text-dark/70 dark:text-text-light/70">
+            "La plataforma me permitió estar en el lugar correcto en el momento correcto. En cuestión de horas,
+            estaba asistiendo a personas que lo necesitaban. Increíble experiencia."
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md card-hover">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="María"
+              class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <h4 class="font-bold text-text-dark dark:text-text-light">María García</h4>
+              <p class="text-sm text-text-dark/60 dark:text-text-light/60">Coordinadora de ONG</p>
+            </div>
+          </div>
+          <div class="flex gap-1 mb-4">
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+          </div>
+          <p class="text-text-dark/70 dark:text-text-light/70">
+            "Gestionar a tantos voluntarios antes era una pesadilla. Con esta herramienta, asignamos tareas en
+            minutos y coordinamos de manera impecable."
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md card-hover">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Juan"
+              class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <h4 class="font-bold text-text-dark dark:text-text-light">Juan Rodríguez</h4>
+              <p class="text-sm text-text-dark/60 dark:text-text-light/60">Instructor de Primeros Auxilios</p>
+            </div>
+          </div>
+          <div class="flex gap-1 mb-4">
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+            <span class="material-symbols-outlined text-accent-orange text-lg">star</span>
+          </div>
+          <p class="text-text-dark/70 dark:text-text-light/70">
+            "Los cursos en línea son de excelente calidad. Mi certificado fue reconocido en toda la región.
+            Totalmente recomendado."
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Misión -->
+  <section class="py-16 md:py-24 gradient-hero text-white">
+    <div class="container mx-auto px-4 text-center">
+      <span class="material-symbols-outlined text-6xl mb-6 block">rocket_launch</span>
+      <h3 class="text-3xl md:text-4xl font-black mb-6">Nuestra Misión</h3>
+      <blockquote class="text-lg md:text-xl font-light max-w-3xl mx-auto leading-relaxed">
+        "Salvar vidas y aliviar el sufrimiento humano mediante la movilización rápida y eficiente del poder del
+        voluntariado frente a desastres naturales y emergencias comunitarias. Creemos que cuando nos unimos, somos
+        capaces de lograr lo imposible."
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Contactos -->
+  <section id="contactos" class="py-16 md:py-24 bg-background-light/50 dark:bg-background-dark/50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">
+          Ponte en Contacto
+        </h3>
+        <p class="text-lg text-text-dark/60 dark:text-text-light/60">
+          Tenemos un equipo dedicado para atender tus preguntas y ayudarte a comenzar tu viaje como voluntario
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-md">
+          <h4 class="text-2xl font-bold text-text-dark dark:text-text-light mb-6">
+            Envíanos un Mensaje
+          </h4>
+          <form class="space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                Nombre Completo
+              </label>
+              <input type="text" id="name" placeholder="Tu nombre"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-dark dark:text-text-light focus:ring-2 focus:ring-primary focus:border-transparent" />
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                Correo Electrónico
+              </label>
+              <input type="email" id="email" placeholder="tu@email.com"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-dark dark:text-text-light focus:ring-2 focus:ring-primary focus:border-transparent" />
+            </div>
+
+            <div>
+              <label for="subject" class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                Asunto
+              </label>
+              <input type="text" id="subject" placeholder="¿Cómo podemos ayudarte?"
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-dark dark:text-text-light focus:ring-2 focus:ring-primary focus:border-transparent" />
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-medium text-text-dark dark:text-text-light mb-2">
+                Mensaje
+              </label>
+              <textarea id="message" rows="4" placeholder="Cuéntanos tu historia..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-dark dark:text-text-light focus:ring-2 focus:ring-primary focus:border-transparent resize-none"></textarea>
+            </div>
+
+            <button type="submit"
+              class="w-full py-3 rounded-lg bg-primary text-white font-bold hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined">send</span>
+              Enviar Mensaje
+            </button>
+          </form>
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 card-hover shadow-md">
+            <div class="flex gap-4 mb-4">
+              <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-primary text-2xl">mail</span>
+              </div>
+              <div>
+                <h5 class="font-bold text-text-dark dark:text-text-light mb-1">Email</h5>
+                <p class="text-text-dark/70 dark:text-text-light/70 text-sm break-all">
+                  contacto@voluntariosenaccion.org
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 card-hover shadow-md">
+            <div class="flex gap-4 mb-4">
+              <div class="w-12 h-12 rounded-lg bg-accent-green/20 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-accent-green text-2xl">phone</span>
+              </div>
+              <div>
+                <h5 class="font-bold text-text-dark dark:text-text-light mb-1">Teléfono</h5>
+                <p class="text-text-dark/70 dark:text-text-light/70 text-sm">
+                  +57 (5) 1234-5678
+                </p>
+                <p class="text-text-dark/60 dark:text-text-light/60 text-xs mt-1">
+                  Lun - Vie: 8:00 AM - 6:00 PM
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 card-hover shadow-md">
+            <div class="flex gap-4 mb-4">
+              <div class="w-12 h-12 rounded-lg bg-accent-orange/20 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-accent-orange text-2xl">location_on</span>
+              </div>
+              <div>
+                <h5 class="font-bold text-text-dark dark:text-text-light mb-1">Ubicación</h5>
+                <p class="text-text-dark/70 dark:text-text-light/70 text-sm">
+                  Calle 80 #15-45
+                </p>
+                <p class="text-text-dark/70 dark:text-text-light/70 text-sm">
+                  Barranquilla, Atlántico, Colombia
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-xl p-6 card-hover shadow-md">
+            <div class="flex gap-4 mb-4">
+              <div class="w-12 h-12 rounded-lg bg-accent-red/20 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-accent-red text-2xl">emergency</span>
+              </div>
+              <div>
+                <h5 class="font-bold text-text-dark dark:text-text-light mb-1">Emergencias</h5>
+                <p class="text-text-dark/70 dark:text-text-light/70 text-sm">
+                  Línea de emergencia activa 24/7
+                </p>
+                <p class="text-text-dark/70 dark:text-text-light/70 text-sm">
+                  +57 (5) 9876-5432
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">
+          Preguntas Frecuentes
+        </h3>
+        <p class="text-lg text-text-dark/60 dark:text-text-light/60">Resolvemos tus dudas sobre la plataforma</p>
+      </div>
+
+      <div class="max-w-3xl mx-auto space-y-4">
+        <details class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-text-dark dark:text-text-light">
+            <span>¿Cómo me registro en la plataforma?</span>
+            <span
+              class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-text-dark/70 dark:text-text-light/70 mt-4">
+            El registro es simple y rápido. Solo necesitas ir a la sección de registro, proporcionar tus datos
+            básicos, crear una contraseña segura y verificar tu correo electrónico. En menos de 5 minutos estarás
+            listo para comenzar.
+          </p>
+        </details>
+
+        <details class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-text-dark dark:text-text-light">
+            <span>¿Es gratuito ser voluntario?</span>
+            <span
+              class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-text-dark/70 dark:text-text-light/70 mt-4">
+            Sí, totalmente gratuito. Nuestra plataforma fue diseñada para ser accesible a todos. No hay cuotas de
+            membresía ni cargos ocultos. Tu compromiso es lo más importante para nosotros.
+          </p>
+        </details>
+
+        <details class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-text-dark dark:text-text-light">
+            <span>¿Necesito experiencia previa?</span>
+            <span
+              class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-text-dark/70 dark:text-text-light/70 mt-4">
+            No es necesario. Ofrecemos capacitación completa para todos los niveles. Desde principiantes hasta
+            profesionales, tenemos programas adaptados para ti. Todos nuestros cursos incluyen certificaciones
+            reconocidas.
+          </p>
+        </details>
+
+        <details class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-text-dark dark:text-text-light">
+            <span>¿Cómo se garantiza mi seguridad?</span>
+            <span
+              class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-text-dark/70 dark:text-text-light/70 mt-4">
+            La seguridad es nuestra prioridad. Verificamos exhaustivamente a todos los voluntarios y organizaciones.
+            Además, proporcionamos equipamiento de seguridad, capacitación específica y supervisión constante en el
+            terreno.
+          </p>
+        </details>
+
+        <details class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md cursor-pointer group">
+          <summary class="flex items-center justify-between font-bold text-text-dark dark:text-text-light">
+            <span>¿Puedo trabajar con mi propia organización?</span>
+            <span
+              class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-text-dark/70 dark:text-text-light/70 mt-4">
+            Absolutamente. Contamos con herramientas especiales para organizaciones. Si tu ONG desea integrarse a
+            nuestra plataforma, contáctanos y nuestro equipo te guiará en el proceso de verificación e integración.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section
+    class="py-16 md:py-24 bg-gradient-to-r from-primary/10 to-accent-orange/10 dark:from-primary/5 dark:to-accent-orange/5">
+    <div class="container mx-auto px-4 text-center">
+      <h3 class="text-4xl font-black text-text-dark dark:text-text-light mb-4">
+        Comienza Tu Viaje Como Voluntario
+      </h3>
+      <p class="text-lg text-text-dark/60 dark:text-text-light/60 mb-8 max-w-2xl mx-auto">
+        Únete a miles de voluntarios que están haciendo la diferencia. Tu ayuda es fundamental para salvar vidas y
+        cambiar comunidades.
+      </p>
+      <a href="login.html"
+        class="inline-flex items-center justify-center rounded-lg h-12 px-8 bg-primary text-white font-bold shadow-lg hover:bg-blue-600 transition-all transform hover:scale-105">
+        Regístrate Ahora - Es Gratis
+      </a>
+    </div>
+  </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-text-dark dark:bg-gray-800 text-text-light dark:text-text-dark mt-12">
+    <div class="container mx-auto px-4 py-12">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-primary text-2xl">volunteer_activism</span>
+            <span class="font-bold">Voluntarios en Acción</span>
+          </div>
+          <p class="text-sm opacity-70">Conectando voluntarios comprometidos con propósito y misión.</p>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-4">Plataforma</h4>
+          <ul class="space-y-2 text-sm opacity-70">
+            <li><a href="#inicio" class="hover:text-primary transition-colors">Inicio</a></li>
+            <li><a href="capacitacion.html" class="hover:text-primary transition-colors">Capacitación</a></li>
+            <li><a href="perfil.html" class="hover:text-primary transition-colors">Mi Perfil</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm opacity-70">
+            <li><a href="#" class="hover:text-primary transition-colors">Términos de Servicio</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">Política de Privacidad</a></li>
+            <li><a href="#" class="hover:text-primary transition-colors">Cookies</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-4">Síguenos</h4>
+          <div class="flex gap-3">
+            <a href="#"
+              class="w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+              <span class="material-symbols-outlined text-xl">facebook</span>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+              <span class="material-symbols-outlined text-xl">email</span>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+              <span class="material-symbols-outlined text-xl">phone</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 pt-8">
+        <p class="text-center text-sm opacity-70">
+          © 2024 Plataforma de Voluntariado. Todos los derechos reservados. Hecho con ❤️ para las comunidades.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  </div>
+
+  <script>
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const html = document.documentElement;
+
+    if (localStorage.getItem('darkMode') === 'true' ||
+      (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      html.classList.add('dark');
+      updateDarkModeIcon(); // Actualizar icono al cargar
+    }
+
+    darkModeToggle.addEventListener('click', function () {
+      html.classList.toggle('dark');
+      localStorage.setItem('darkMode', html.classList.contains('dark'));
+      updateDarkModeIcon(); // Actualizar icono al hacer clic
+    });
+
+    // Función para actualizar el icono
+    function updateDarkModeIcon() {
+      const icon = darkModeToggle.querySelector('.material-symbols-outlined');
+      if (html.classList.contains('dark')) {
+        icon.textContent = 'light_mode'; // Icono de sol para modo claro
+      } else {
+        icon.textContent = 'dark_mode'; // Icono de luna para modo oscuro
+      }
+    }
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

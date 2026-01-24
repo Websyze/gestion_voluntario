@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organizaciones Humanitarias</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+    .notif-panel {
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    .notif-panel.active {
+      transform: translateX(0);
+    }
+    .notif-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .notif-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#005f73",
+            "secondary": "#0a9396",
+            "accent": "#ee9b00",
+            "background-light": "#F8F9FA",
+            "background-dark": "#101c22",
+            "text-light": "#212529",
+            "text-dark": "#F8F9FA",
+            "heading-light": "#000000",
+            "heading-dark": "#FFFFFF"
+          },
+          fontFamily: {
+            "display": ["Public Sans", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+<div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+<div class="flex items-center gap-4 text-heading-light dark:text-heading-dark">
+<span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de Voluntariado</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="proyectos.html">Casos de desastre</a>
+<a class="text-sm font-medium leading-normal text-primary dark:text-secondary" href="organizaciones.html">Organizaciones</a>
+<a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary"
+              href="capacitacion.html">Capacitaciones</a>
+
+<a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="perfil.html">Mi Perfil</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-secondary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90">
+<span class="truncate">Donar</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button id="notifBtn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div onclick="window.location.href='perfil.html'" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmbF7_HrmSigUZBAsnaOpRRXw8BZ-5sAYkzQ5o4AxXple2TJ_W45gngFRafRfc33dhsWL7-aGg1_VxwVRqXbqQYVvB1WjXb-AgCoZET1js5hI4IebohZuhUFH-MqQP2AzA_BqBzhqjOZirsLp86ifMnquTbK1j2fsPvJxwQcAoFMzcDEQKJk8GWu4NXYGHLMuUIolUq1-_32jDiogWlSPSknhALsRNJPu5jvyFLmjFVpwymCuCq-OEYwhT8ZJ99R2krnKuLYZlbret");'></div>
+</div>
+</div>
+</header>
+
+<!-- OVERLAY -->
+<div class="notif-overlay fixed inset-0 bg-black/40 z-40" id="notifOverlay"></div>
+
+<!-- PANEL DE NOTIFICACIONES -->
+<div class="notif-panel fixed top-0 right-0 h-full w-full sm:w-96 bg-white dark:bg-gray-800 shadow-2xl z-50" id="notifPanel">
+  <div class="flex flex-col h-full">
+    <!-- Header del panel -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+      <h3 class="text-lg font-bold text-heading-light dark:text-heading-dark">Notificaciones</h3>
+      <button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" id="closeNotifBtn">
+        <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">close</span>
+      </button>
+    </div>
+
+    <!-- Lista de notificaciones -->
+    <div class="flex-1 overflow-y-auto">
+      <!-- Notificación 1 -->
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors">
+        <div class="flex gap-3">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl">add_circle</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-heading-light dark:text-heading-dark">Nueva organización aliada</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Habitat for Humanity se unió a la plataforma</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 10 minutos</p>
+          </div>
+          <div class="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2"></div>
+        </div>
+      </div>
+
+      <!-- Notificación 2 -->
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors">
+        <div class="flex gap-3">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-accent text-xl">emergency</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-heading-light dark:text-heading-dark">Solicitud de ayuda urgente</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Cruz Roja solicita 15 voluntarios para emergencia</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 25 minutos</p>
+          </div>
+          <div class="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2"></div>
+        </div>
+      </div>
+
+      <!-- Notificación 3 -->
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors">
+        <div class="flex gap-3">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-xl">campaign</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-heading-light dark:text-heading-dark">Campaña de donación activa</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">World Central Kitchen lanzó nueva campaña de alimentación</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 1 hora</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notificación 4 -->
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors">
+        <div class="flex gap-3">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-purple-600 dark:text-purple-400 text-xl">handshake</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-heading-light dark:text-heading-dark">Colaboración confirmada</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Médicos Sin Fronteras confirmó colaboración en proyecto</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 2 horas</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notificación 5 -->
+      <div class="p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition-colors">
+        <div class="flex gap-3">
+          <div class="flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-yellow-600 dark:text-yellow-400 text-xl">update</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-heading-light dark:text-heading-dark">Actualización de perfil</p>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Cruz Roja actualizó sus áreas de especialización</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 4 horas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer del panel -->
+    <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+      <button class="w-full py-2 text-sm font-medium text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+        Ver todas las notificaciones
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col gap-8">
+<div class="flex flex-wrap justify-between items-center gap-4">
+<div class="flex flex-col gap-2">
+<p class="text-heading-light dark:text-heading-dark text-4xl font-black leading-tight tracking-[-0.033em]">Nuestras Organizaciones Aliadas</p>
+<p class="text-text-light dark:text-text-dark text-base font-normal leading-normal">Conecta con las organizaciones que están marcando la diferencia en la respuesta a desastres.</p>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex-1">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-white dark:bg-gray-800 shadow-sm">
+<div class="text-gray-400 dark:text-gray-500 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal" placeholder="Buscar por nombre, ubicación..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2">
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">Área de especialización</p>
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">expand_more</span>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">Salud</p>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">Logística</p>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-gray-800 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal">Construcción</p>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-gray-800 p-4 shadow-md transition-shadow hover:shadow-lg">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0" data-alt="Cruz Roja logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBaeY1N5f-bRpDesQJQgelcGIIrzqCMIWqcYXfnQbtbdfp7KePDAq6xin0wAF8Ld35vuK1HJz8UnjhJjJ0NdRlN6V8gKkEyAhvegkfKiBJRJzGYtQSEJIltTwt_LoaEJVmW4UyebkLssHDBjJagVxDhh-S35IhHC0jFM_WyfPbEBhu_i25v4Iyuo26ckXa9zy_5qfuYGXdo_lr6zI8X9YuMk5nYz-pogy6CTjFGnDa3k89greV8_d3uu1S-XQya-Z9e68RdTMXRLofY");'></div>
+<div class="flex flex-col gap-1 flex-1">
+<p class="text-heading-light dark:text-heading-dark text-lg font-bold leading-tight">Cruz Roja</p>
+<p class="text-text-light dark:text-text-dark text-sm font-normal leading-normal">Organización humanitaria internacional que brinda asistencia en emergencias y desastres.</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Atención Médica</span>
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Refugios</span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<p class="text-sm text-gray-500 dark:text-gray-400">Ginebra, Suiza</p>
+<button onclick="window.location.href='ver_mas_organizaciones.html'" class="flex items-center justify-center gap-1 rounded-lg h-8 px-3 bg-secondary text-white text-sm font-medium leading-normal hover:bg-opacity-90">
+<span class="truncate">Ver más</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-gray-800 p-4 shadow-md transition-shadow hover:shadow-lg">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0" data-alt="Médicos Sin Fronteras logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcw5sdK0PyU-GCUZbmz0HL9HPi06HTfUyR2gcTMz04hfw65ci8rtQ2k7OGDIZvCIaEv7iklbU3L27ev96tfnoWsDZHzBneFV1votvfytCUrTw6RiHAneMkpbA73BDLfZH0x57wWMa-Zq7sN4OSQauVH2ga0OGcRysEP5hW9Wq7KDScIem8WWnktxcaBFXGd1o4w5MMez_z2guiQ2Y8lhwq9q5KEdgfiOdqwjJHm0qshQ-T85LfQ8W9RYAuYe90Dr5j8JVfPzqh3lpL");'></div>
+<div class="flex flex-col gap-1 flex-1">
+<p class="text-heading-light dark:text-heading-dark text-lg font-bold leading-tight">Médicos Sin Fronteras</p>
+<p class="text-text-light dark:text-text-dark text-sm font-normal leading-normal">Proporciona ayuda médica y humanitaria a víctimas de conflictos armados y catástrofes.</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Atención Médica</span>
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Salud Mental</span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<p class="text-sm text-gray-500 dark:text-gray-400">París, Francia</p>
+<button onclick="window.location.href='ver_mas_organizaciones.html'" class="flex items-center justify-center gap-1 rounded-lg h-8 px-3 bg-secondary text-white text-sm font-medium leading-normal hover:bg-opacity-90">
+<span class="truncate">Ver más</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-gray-800 p-4 shadow-md transition-shadow hover:shadow-lg">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0" data-alt="World Central Kitchen logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDxRIFX9Ohmkfm_yAWLP9nOFbTRsmgUNnGdcPHmhtJdPZr7khoj14XbxUrOHZGEriMX8pxbgIRgNdg9jFiYfAqrPhRKDk8bL8IGLWT43vP-wmyjiaxYZ2LsY-xor3pk5IbCqWPaP4QOWt_T8Id6tnVD6TofeKo0FaVyGkjIvu2fa-6RxHpI3NrqAAQ6gE09sQCjBjqTMQUnANqQF7g4Wd17ZyqkzYjr5Lgf2wM3452PJUVuxkPG33MwkQcgrhja1TjdyeehH6_YO2FT");'></div>
+<div class="flex flex-col gap-1 flex-1">
+<p class="text-heading-light dark:text-heading-dark text-lg font-bold leading-tight">World Central Kitchen</p>
+<p class="text-text-light dark:text-text-dark text-sm font-normal leading-normal">Provee comidas a personas afectadas por desastres naturales y crisis humanitarias.</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Alimentación</span>
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Logística</span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<p class="text-sm text-gray-500 dark:text-gray-400">Washington D.C., USA</p>
+<button onclick="window.location.href='ver_mas_organizaciones.html'" class="flex items-center justify-center gap-1 rounded-lg h-8 px-3 bg-secondary text-white text-sm font-medium leading-normal hover:bg-opacity-90">
+<span class="truncate">Ver más</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-4 rounded-xl bg-white dark:bg-gray-800 p-4 shadow-md transition-shadow hover:shadow-lg">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 bg-center bg-no-repeat bg-cover rounded-lg flex-shrink-0" data-alt="Habitat for Humanity logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC6CX7PjpC9Py6L4bs1hJh5zy85lSbL0lOu68lrruGiyXd6ZhU9M6wLgdtWocTG_tHEZrKJ0n3Z4rgx64SI-mKSZupig-AKNpiUIBkybeeYCdVxWl_0AZpET83TtbW57qWS0CbC8tbrENVjLjLciRI-3Sp_zjdCwfXKar3EQo-6nogGG3wB0wAaJ8RAARGrX-No0pO1dtocTwnKZqn9W672OEqlG2Uk6VNq9UH01cHyk8gDEkMKyzffCMYmVlH_WhdkyprFNepk5gQg");'></div>
+<div class="flex flex-col gap-1 flex-1">
+<p class="text-heading-light dark:text-heading-dark text-lg font-bold leading-tight">Habitat for Humanity</p>
+<p class="text-text-light dark:text-text-dark text-sm font-normal leading-normal">Ayuda a construir y reparar viviendas para familias necesitadas tras desastres.</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Construcción</span>
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-2 py-1 rounded-full">Infraestructura</span>
+</div>
+<div class="flex justify-between items-center mt-2">
+<p class="text-sm text-gray-500 dark:text-gray-400">Atlanta, USA</p>
+<button onclick="window.location.href='ver_mas_organizaciones.html'" class="flex items-center justify-center gap-1 rounded-lg h-8 px-3 bg-secondary text-white text-sm font-medium leading-normal hover:bg-opacity-90">
+<span class="truncate">Ver más</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="col-span-1 md:col-span-2 flex justify-center mt-8">
+<nav aria-label="Pagination" class="flex items-center gap-2">
+<span class="material-symbols-outlined">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+<div class="lg:col-span-1 h-fit sticky top-8">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl shadow-md" data-alt="Mapa interactivo con la ubicación de las organizaciones." data-location="World map with pins" style='background-image: url("https://placeholder.pics/svg/300");'>
+<div class="w-full h-full rounded-xl bg-black/30 flex items-center justify-center">
+<p class="text-white font-bold text-xl">Mapa Interactivo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<script>
+  // Referencias a elementos
+  const notifBtn = document.getElementById('notifBtn');
+  const notifPanel = document.getElementById('notifPanel');
+  const notifOverlay = document.getElementById('notifOverlay');
+  const closeNotifBtn = document.getElementById('closeNotifBtn');
+
+  // Función para abrir el panel
+  function openNotifications() {
+    notifPanel.classList.add('active');
+    notifOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Función para cerrar el panel
+  function closeNotifications() {
+    notifPanel.classList.remove('active');
+    notifOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Event listeners
+  notifBtn.addEventListener('click', openNotifications);
+  closeNotifBtn.addEventListener('click', closeNotifications);
+  notifOverlay.addEventListener('click', closeNotifications);
+
+  // Cerrar con tecla ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && notifPanel.classList.contains('active')) {
+      closeNotifications();
+    }
+  });
+</script>

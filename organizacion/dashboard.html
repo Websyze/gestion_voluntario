@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Plataforma de Organización</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0b95da",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101c22",
+            accent: "#FF7A00",
+            "accent-green": "#198754",
+            "accent-red": "#DC3545",
+          },
+          fontFamily: {
+            display: ["Public Sans", "sans-serif"]
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .stat-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .dark .stat-card {
+      background: #1f2937;
+      border-color: #374151;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .task-item {
+      padding: 1rem;
+      border-left: 4px solid transparent;
+      border-radius: 0.5rem;
+      transition: all 0.2s;
+    }
+    .task-item:hover {
+      background: #f3f4f6;
+      border-left-color: #0b95da;
+    }
+    .dark .task-item:hover {
+      background: #374151;
+    }
+    .activity-item {
+      position: relative;
+      padding-left: 2rem;
+      padding-bottom: 1.5rem;
+    }
+    .activity-item::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 24px;
+      bottom: 0;
+      width: 2px;
+      background: #e5e7eb;
+    }
+    .dark .activity-item::before {
+      background: #374151;
+    }
+    .activity-item:last-child::before {
+      display: none;
+    }
+    .activity-dot {
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+    .dark .activity-dot {
+      border-color: #1f2937;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100">
+  <div class="relative flex min-h-screen w-full flex-col">
+    <div class="relative flex h-auto min-h-screen w-full flex-col">
+      <div class="layout-container flex h-full grow flex-col">
+        <!-- Header -->
+        <header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+          <div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+            <div class="flex items-center gap-4">
+              <span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+              <h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de organización</h2>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="text-sm font-medium leading-normal hover:text-primary" href="gestion_voluntariado.html">Voluntariado</a>
+              <a class="text-sm font-medium leading-normal text-primary" href="dashboard.html">Dashboard</a>
+              <a class="text-sm font-medium leading-normal hover:text-primary" href="gestion_postulacion.html">Gestion de postulaciones</a>
+              <a class="text-sm font-medium leading-normal hover:text-primary" href="perfil_organizacion.html">Mi organización</a>
+            </nav>
+            <div class="flex items-center gap-4">
+              <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+                <span class="material-symbols-outlined">settings</span>
+              </button>
+              <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              </button>
+              <div onclick="window.location.href='perfil_organizacion.html'" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all" style='background-image: url("https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=200&h=200&fit=crop");'></div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow px-4 sm:px-6 lg:px-8 py-8">
+          <div class="container mx-auto max-w-7xl">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+              <h1 class="text-4xl font-black text-gray-900 dark:text-white mb-2">Dashboard</h1>
+              <p class="text-gray-600 dark:text-gray-400">Bienvenido de nuevo, Cruz Roja Argentina</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <!-- Stat 1 -->
+              <div class="stat-card">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-2xl">groups</span>
+                  </div>
+                  <span class="text-xs font-semibold text-accent-green">+12%</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">145</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Voluntarios Activos</p>
+              </div>
+
+              <!-- Stat 2 -->
+              <div class="stat-card">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-accent text-2xl">emergency</span>
+                  </div>
+                  <span class="text-xs font-semibold text-accent">8 activos</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">47</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Proyectos Totales</p>
+              </div>
+
+              <!-- Stat 3 -->
+              <div class="stat-card">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="w-12 h-12 rounded-full bg-accent-green/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-accent-green text-2xl">schedule</span>
+                  </div>
+                  <span class="text-xs font-semibold text-gray-500">Este mes</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">2,840</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Horas de Voluntariado</p>
+              </div>
+
+              <!-- Stat 4 -->
+              <div class="stat-card">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="w-12 h-12 rounded-full bg-accent-red/20 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-accent-red text-2xl">notifications_active</span>
+                  </div>
+                  <span class="text-xs font-semibold text-accent-red">Urgente</span>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">23</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Postulaciones Pendientes</p>
+              </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Left Column -->
+              <div class="lg:col-span-2 space-y-6">
+                <!-- Chart Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                  <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Actividad de Voluntarios</h3>
+                    <select class="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm border-0">
+                      <option>Últimos 7 días</option>
+                      <option>Último mes</option>
+                      <option>Último año</option>
+                    </select>
+                  </div>
+                  <div class="h-64">
+                    <canvas id="activityChart"></canvas>
+                  </div>
+                </div>
+
+                <!-- Active Projects -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                  <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Proyectos Activos</h3>
+                    <a href="proyectos.html" class="text-primary text-sm font-semibold hover:underline">Ver todos</a>
+                  </div>
+                  <div class="space-y-4">
+                    <!-- Project 1 -->
+                    <div class="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary transition-colors">
+                      <div class="w-12 h-12 rounded-lg bg-accent-red/20 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-accent-red">emergency</span>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-gray-900 dark:text-white truncate">Inundaciones en la Región Sur</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">15/20 voluntarios • 32 postulaciones</p>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-bold">En Progreso</span>
+                      </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary transition-colors">
+                      <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-accent">local_fire_department</span>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-gray-900 dark:text-white truncate">Prevención de Incendios Forestales</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">8/15 voluntarios • 18 postulaciones</p>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 bg-accent-green/20 text-accent-green rounded-full text-xs font-bold">Reclutando</span>
+                      </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary transition-colors">
+                      <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary">health_and_safety</span>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-gray-900 dark:text-white truncate">Campaña de Primeros Auxilios</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">12/12 voluntarios • 450 capacitados</p>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-bold">Completo</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div class="lg:col-span-1 space-y-6">
+                <!-- Tasks Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                  <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Tareas Pendientes</h3>
+                    <span class="px-2 py-1 bg-accent-red/20 text-accent-red rounded-full text-xs font-bold">5</span>
+                  </div>
+                  <div class="space-y-3">
+                    <div class="task-item cursor-pointer">
+                      <div class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <div class="flex-1">
+                          <p class="text-sm font-semibold text-gray-900 dark:text-white">Revisar postulaciones</p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400">23 candidatos esperando</p>
+                        </div>
+                        <span class="text-xs text-accent-red font-semibold">Hoy</span>
+                      </div>
+                    </div>
+
+                    <div class="task-item cursor-pointer">
+                      <div class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <div class="flex-1">
+                          <p class="text-sm font-semibold text-gray-900 dark:text-white">Actualizar inventario</p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400">Recursos de emergencia</p>
+                        </div>
+                        <span class="text-xs text-accent font-semibold">Mañana</span>
+                      </div>
+                    </div>
+
+                    <div class="task-item cursor-pointer">
+                      <div class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <div class="flex-1">
+                          <p class="text-sm font-semibold text-gray-900 dark:text-white">Reunión de coordinación</p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400">Proyecto Inundaciones</p>
+                        </div>
+                        <span class="text-xs text-gray-500 font-semibold">Viernes</span>
+                      </div>
+                    </div>
+
+                    <div class="task-item cursor-pointer">
+                      <div class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <div class="flex-1">
+                          <p class="text-sm font-semibold text-gray-900 dark:text-white">Preparar informe mensual</p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400">Estadísticas octubre</p>
+                        </div>
+                        <span class="text-xs text-gray-500 font-semibold">30 Oct</span>
+                      </div>
+                    </div>
+
+                    <div class="task-item cursor-pointer">
+                      <div class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <div class="flex-1">
+                          <p class="text-sm font-semibold text-gray-900 dark:text-white">Capacitación nueva</p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400">Primeros auxilios avanzados</p>
+                        </div>
+                        <span class="text-xs text-gray-500 font-semibold">5 Nov</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Actividad Reciente</h3>
+                  <div class="space-y-1">
+                    <div class="activity-item">
+                      <div class="activity-dot bg-accent-green"></div>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white">Nuevo voluntario registrado</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">María López se unió como voluntaria</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 5 minutos</p>
+                    </div>
+
+                    <div class="activity-item">
+                      <div class="activity-dot bg-primary"></div>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white">Proyecto actualizado</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Inundaciones: 3 nuevos voluntarios</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 2 horas</p>
+                    </div>
+
+                    <div class="activity-item">
+                      <div class="activity-dot bg-accent"></div>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white">Nueva postulación</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Carlos R. aplicó a Prevención Incendios</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Hace 4 horas</p>
+                    </div>
+
+                    <div class="activity-item">
+                      <div class="activity-dot bg-gray-400"></div>
+                      <p class="text-sm font-semibold text-gray-900 dark:text-white">Recursos actualizados</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Nuevo equipamiento agregado al inventario</p>
+                      <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Ayer</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+                  <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Acciones Rápidas</h3>
+                  <div class="space-y-2">
+                    <button class="w-full px-4 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                      <span class="material-symbols-outlined">add</span>
+                      Nuevo Proyecto
+                    </button>
+                    <button class="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
+                      <span class="material-symbols-outlined">person_add</span>
+                      Invitar Voluntario
+                    </button>
+                    <button class="w-full px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2">
+                      <span class="material-symbols-outlined">assessment</span>
+                      Ver Reportes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Chart.js Configuration
+    const ctx = document.getElementById('activityChart').getContext('2d');
+    const activityChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        datasets: [{
+          label: 'Voluntarios Activos',
+          data: [45, 52, 48, 65, 58, 42, 38],
+          borderColor: '#0b95da',
+          backgroundColor: 'rgba(11, 149, 218, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#0b95da',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            borderRadius: 8,
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            displayColors: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)'
+            },
+            ticks: {
+              color: '#6b7280'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              color: '#6b7280'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

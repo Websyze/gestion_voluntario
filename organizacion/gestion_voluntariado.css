@@ -1,0 +1,190 @@
+/* --- Estilos personalizados adicionales --- */
+
+body {
+  font-family: 'Public Sans', sans-serif;
+}
+
+/* NAVBAR */
+.nav-link {
+  color: #555;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #0b95da;
+}
+
+.nav-link.active {
+  color: #0b95da;
+  font-weight: 700;
+}
+
+/* Notificación */
+.notif-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7eff4;
+  border-radius: 9999px;
+  width: 40px;
+  height: 40px;
+}
+
+.notif-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #FF7A00;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+}
+
+/* Imagen de perfil */
+.profile-pic {
+  background-size: cover;
+  background-position: center;
+  border-radius: 9999px;
+  width: 40px;
+  height: 40px;
+}
+
+/* Filtros */
+.filter-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #0d171c;
+  margin-bottom: 1rem;
+}
+
+.filter-input {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  background-color: #f5f7f8;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #0b95da;
+  color: white;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  padding: 0.6rem;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0a7ec0;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: gray;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  padding: 0.6rem;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #f0f0f0;
+}
+
+/* Tarjetas */
+.card {
+  background: white;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.card-header {
+  padding: 1.25rem;
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  margin: 0 auto 0.75rem;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-name {
+  font-weight: 700;
+  color: #0d171c;
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.card-tags {
+  padding: 0.5rem 1rem;
+}
+
+.card-tags span {
+  background-color: rgba(11,149,218,0.1);
+  color: #0b95da;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  margin: 0.2rem;
+  display: inline-block;
+}
+
+.card-footer {
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+.btn-view {
+  width: 100%;
+  background-color: rgba(11,149,218,0.15);
+  color: #0b95da;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  padding: 0.6rem;
+  transition: background 0.3s;
+}
+
+.btn-view:hover {
+  background-color: rgba(11,149,218,0.25);
+}
+
+/* Barra de búsqueda */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 1rem;
+  padding: 0 1rem;
+  height: 3.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.search-bar span {
+  color: gray;
+  margin-right: 0.5rem;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+}

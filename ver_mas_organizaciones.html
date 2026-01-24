@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cruz Roja - Detalle de Organización</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+    .modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-content {
+      transform: scale(0.95);
+      transition: transform 0.3s ease-in-out;
+    }
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#005f73",
+            "secondary": "#0a9396",
+            "accent": "#ee9b00",
+            "background-light": "#F8F9FA",
+            "background-dark": "#101c22",
+            "text-light": "#212529",
+            "text-dark": "#F8F9FA",
+            "heading-light": "#000000",
+            "heading-dark": "#FFFFFF"
+          },
+          fontFamily: {
+            "display": ["Public Sans", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8">
+<div class="container mx-auto flex items-center justify-between whitespace-nowrap h-16">
+<div class="flex items-center gap-4 text-heading-light dark:text-heading-dark">
+<span class="material-symbols-outlined text-primary text-3xl">volunteer_activism</span>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Plataforma de Voluntariado</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="proyectos.html">Casos de desastre</a>
+<a class="text-sm font-medium leading-normal text-primary dark:text-secondary" href="organizaciones.html">Organizaciones</a>
+<a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="capacitacion.html">Capacitación</a>
+<a class="text-sm font-medium leading-normal hover:text-primary dark:hover:text-secondary" href="perfil.html">Mi Perfil</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-secondary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90">
+<span class="truncate">Donar</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-gray-100 dark:bg-gray-800 text-text-light dark:text-text-dark hover:bg-gray-200 dark:hover:bg-gray-700 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div onclick="window.location.href='perfil.html'" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer hover:ring-2 hover:ring-primary transition-all" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmbF7_HrmSigUZBAsnaOpRRXw8BZ-5sAYkzQ5o4AxXple2TJ_W45gngFRafRfc33dhsWL7-aGg1_VxwVRqXbqQYVvB1WjXb-AgCoZET1js5hI4IebohZuhUFH-MqQP2AzA_BqBzhqjOZirsLp86ifMnquTbK1j2fsPvJxwQcAoFMzcDEQKJk8GWu4NXYGHLMuUIolUq1-_32jDiogWlSPSknhALsRNJPu5jvyFLmjFVpwymCuCq-OEYwhT8ZJ99R2krnKuLYZlbret");'></div>
+</div>
+</div>
+</header>
+
+<main class="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumb -->
+<div class="flex items-center gap-2 mb-6 text-sm">
+<a href="organizaciones.html" class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-secondary">Organizaciones</a>
+<span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+<span class="text-heading-light dark:text-heading-dark font-medium">Cruz Roja</span>
+</div>
+
+<!-- Header de la organización -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-8">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-32 h-32 bg-center bg-no-repeat bg-cover rounded-xl flex-shrink-0 shadow-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBaeY1N5f-bRpDesQJQgelcGIIrzqCMIWqcYXfnQbtbdfp7KePDAq6xin0wAF8Ld35vuK1HJz8UnjhJjJ0NdRlN6V8gKkEyAhvegkfKiBJRJzGYtQSEJIltTwt_LoaEJVmW4UyebkLssHDBjJagVxDhh-S35IhHC0jFM_WyfPbEBhu_i25v4Iyuo26ckXa9zy_5qfuYGXdo_lr6zI8X9YuMk5nYz-pogy6CTjFGnDa3k89greV8_d3uu1S-XQya-Z9e68RdTMXRLofY");'></div>
+<div class="flex-1">
+<h1 class="text-heading-light dark:text-heading-dark text-3xl font-black mb-2">Cruz Roja</h1>
+<p class="text-text-light dark:text-text-dark text-base mb-4">Organización humanitaria internacional que brinda asistencia en emergencias y desastres, proporcionando ayuda médica, refugios temporales y apoyo psicológico a comunidades afectadas alrededor del mundo.</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-3 py-1 rounded-full">Atención Médica</span>
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-3 py-1 rounded-full">Refugios</span>
+<span class="text-xs font-medium bg-primary/20 text-primary dark:text-secondary px-3 py-1 rounded-full">Ayuda Humanitaria</span>
+</div>
+<div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Ginebra, Suiza</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">language</span>
+<a href="#" class="hover:text-primary dark:hover:text-secondary">www.cruzroja.org</a>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-3">
+<button id="postularseBtn" class="flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-secondary text-white text-sm font-bold hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span>Postularme como voluntario</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-gray-100 dark:bg-gray-700 text-text-light dark:text-text-dark text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">
+<span class="material-symbols-outlined">favorite_border</span>
+<span>Guardar</span>
+</button>
+</div>
+</div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Columna principal -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Sobre la organización -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+<h2 class="text-heading-light dark:text-heading-dark text-2xl font-bold mb-4">Sobre la organización</h2>
+<p class="text-text-light dark:text-text-dark text-base leading-relaxed mb-4">
+La Cruz Roja es un movimiento humanitario internacional presente en más de 190 países. Fundada en 1863, nuestra misión es prevenir y aliviar el sufrimiento humano en todas sus formas, proteger la vida y la salud, y garantizar el respeto por el ser humano.
+</p>
+<p class="text-text-light dark:text-text-dark text-base leading-relaxed">
+Trabajamos en respuesta a emergencias, desastres naturales, conflictos armados y crisis sanitarias. Nuestros voluntarios y personal capacitado brindan asistencia médica, refugio, alimentación y apoyo psicosocial a las personas más vulnerables.
+</p>
+</div>
+
+<!-- Proyectos activos -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+<h2 class="text-heading-light dark:text-heading-dark text-2xl font-bold mb-4">Proyectos activos</h2>
+<div class="space-y-4">
+<div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary dark:hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-2">
+<h3 class="text-heading-light dark:text-heading-dark text-lg font-bold">Respuesta a inundaciones - Colombia</h3>
+<span class="text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded-full">Urgente</span>
+</div>
+<p class="text-text-light dark:text-text-dark text-sm mb-3">Asistencia médica y refugio temporal para 500 familias afectadas por las inundaciones en la costa atlántica.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-base">group</span>
+<span>15 voluntarios necesarios</span>
+</div>
+<button class="text-sm font-medium text-secondary hover:text-primary">Ver detalles →</button>
+</div>
+</div>
+
+<div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary dark:hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-2">
+<h3 class="text-heading-light dark:text-heading-dark text-lg font-bold">Campaña de donación de sangre</h3>
+<span class="text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 py-1 rounded-full">Activo</span>
+</div>
+<p class="text-text-light dark:text-text-dark text-sm mb-3">Jornada de recolección de sangre en hospitales y centros de salud para mantener los bancos abastecidos.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-base">group</span>
+<span>8 voluntarios necesarios</span>
+</div>
+<button class="text-sm font-medium text-secondary hover:text-primary">Ver detalles →</button>
+</div>
+</div>
+
+<div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary dark:hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-2">
+<h3 class="text-heading-light dark:text-heading-dark text-lg font-bold">Capacitación en primeros auxilios</h3>
+<span class="text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full">Programado</span>
+</div>
+<p class="text-text-light dark:text-text-dark text-sm mb-3">Formación de nuevos voluntarios en técnicas básicas de primeros auxilios y respuesta ante emergencias.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-base">group</span>
+<span>20 participantes máximo</span>
+</div>
+<button class="text-sm font-medium text-secondary hover:text-primary">Ver detalles →</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Impacto -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+<h2 class="text-heading-light dark:text-heading-dark text-2xl font-bold mb-6">Nuestro impacto</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="text-center p-4 bg-primary/10 dark:bg-primary/20 rounded-lg">
+<p class="text-3xl font-black text-primary dark:text-secondary mb-1">2.5M+</p>
+<p class="text-sm text-text-light dark:text-text-dark">Personas asistidas</p>
+</div>
+<div class="text-center p-4 bg-primary/10 dark:bg-primary/20 rounded-lg">
+<p class="text-3xl font-black text-primary dark:text-secondary mb-1">150+</p>
+<p class="text-sm text-text-light dark:text-text-dark">Países con presencia</p>
+</div>
+<div class="text-center p-4 bg-primary/10 dark:bg-primary/20 rounded-lg">
+<p class="text-3xl font-black text-primary dark:text-secondary mb-1">50K+</p>
+<p class="text-sm text-text-light dark:text-text-dark">Voluntarios activos</p>
+</div>
+<div class="text-center p-4 bg-primary/10 dark:bg-primary/20 rounded-lg">
+<p class="text-3xl font-black text-primary dark:text-secondary mb-1">1863</p>
+<p class="text-sm text-text-light dark:text-text-dark">Año de fundación</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Columna lateral -->
+<div class="lg:col-span-1 space-y-6">
+<!-- Información de contacto -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 sticky top-8">
+<h3 class="text-heading-light dark:text-heading-dark text-xl font-bold mb-4">Información de contacto</h3>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary dark:text-secondary mt-1">mail</span>
+<div>
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Email</p>
+<p class="text-sm text-gray-600 dark:text-gray-400">voluntarios@cruzroja.org</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary dark:text-secondary mt-1">call</span>
+<div>
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Teléfono</p>
+<p class="text-sm text-gray-600 dark:text-gray-400">+41 22 730 4222</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary dark:text-secondary mt-1">location_on</span>
+<div>
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Dirección</p>
+<p class="text-sm text-gray-600 dark:text-gray-400">Avenue de la Paix 17, Ginebra, Suiza</p>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+<h4 class="text-sm font-bold text-heading-light dark:text-heading-dark mb-3">Redes sociales</h4>
+<div class="flex gap-3">
+<a href="#" class="w-10 h-10 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+<a href="#" class="w-10 h-10 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-xl">photo_camera</span>
+</a>
+<a href="#" class="w-10 h-10 rounded-full bg-primary/20 dark:bg-primary/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-xl">videocam</span>
+</a>
+</div>
+</div>
+</div>
+
+<!-- Requisitos para voluntarios -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+<h3 class="text-heading-light dark:text-heading-dark text-xl font-bold mb-4">Requisitos para voluntarios</h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl">check_circle</span>
+<span class="text-sm text-text-light dark:text-text-dark">Mayor de 18 años</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl">check_circle</span>
+<span class="text-sm text-text-light dark:text-text-dark">Disponibilidad mínima de 4 horas semanales</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl">check_circle</span>
+<span class="text-sm text-text-light dark:text-text-dark">Compromiso humanitario</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl">check_circle</span>
+<span class="text-sm text-text-light dark:text-text-dark">Capacidad de trabajo en equipo</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-xl">check_circle</span>
+<span class="text-sm text-text-light dark:text-text-dark">Certificado de antecedentes (no excluyente)</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+<!-- Modal de Postulación -->
+<div id="postulacionModal" class="modal fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+<div class="p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-heading-light dark:text-heading-dark text-2xl font-bold">Postularme como voluntario</h2>
+<button id="closeModalBtn" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-400">close</span>
+</button>
+</div>
+
+<div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400">info</span>
+<div>
+<p class="text-sm font-medium text-blue-900 dark:text-blue-300 mb-1">Proceso de postulación</p>
+<p class="text-sm text-blue-700 dark:text-blue-400">Revisaremos tu aplicación en un plazo de 3-5 días hábiles. Te contactaremos por email para los siguientes pasos.</p>
+</div>
+</div>
+</div>
+
+<form id="postulacionForm" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Nombre completo *</label>
+<input type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Tu nombre completo">
+</div>
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Email *</label>
+<input type="email" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="tu@email.com">
+</div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Teléfono *</label>
+<input type="tel" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="+57 300 123 4567">
+</div>
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Ciudad *</label>
+<input type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Tu ciudad">
+</div>
+</div>
+
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Áreas de interés *</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="flex items-center gap-2 cursor-pointer">
+<input type="checkbox" class="rounded text-primary focus:ring-primary">
+<span class="text-sm text-text-light dark:text-text-dark">Atención Médica</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input type="checkbox" class="rounded text-primary focus:ring-primary">
+<span class="text-sm text-text-light dark:text-text-dark">Refugios</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input type="checkbox" class="rounded text-primary focus:ring-primary">
+<span class="text-sm text-text-light dark:text-text-dark">Logística</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input type="checkbox" class="rounded text-primary focus:ring-primary">
+<span class="text-sm text-text-light dark:text-text-dark">Educación</span>
+</label>
+</div>
+</div>
+
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Disponibilidad horaria semanal *</label>
+<select required class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent">
+<option value="">Selecciona una opción</option>
+<option value="4-8">4-8 horas</option>
+<option value="8-16">8-16 horas</option>
+<option value="16-24">16-24 horas</option>
+<option value="24+">Más de 24 horas</option>
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Experiencia previa (opcional)</label>
+<textarea rows="4" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Cuéntanos sobre tu experiencia previa como voluntario o en áreas relacionadas..."></textarea>
+</div>
+
+<div>
+<label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">¿Por qué quieres ser voluntario? *</label>
+<textarea required rows="4" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-text-light dark:text-text-dark focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Cuéntanos tu motivación..."></textarea>
+</div>
+
+<div class="flex items-start gap-2">
+<input type="checkbox" required class="mt-1 rounded text-primary focus:ring-primary">
+<label class="text-sm text-text-light dark:text-text-dark">
+Acepto los términos y condiciones y autorizo el tratamiento de mis datos personales según la política de privacidad de Cruz Roja. *
+</label>
+</div>
+
+<div class="flex gap-3 pt-4">
+<button type="submit" class="flex-1 flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-secondary text-white text-sm font-bold hover:bg-opacity-90 transition-all">
+<span class="material-symbols-outlined">send</span>
+<span>Enviar postulación</span>
+</button>
+<button type="button" id="cancelBtn" class="flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-gray-200 dark:bg-gray-700 text-text-light dark:text-text-dark text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
+<span>Cancelar</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div id="confirmacionModal" class="modal fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+<div class="modal-content bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-8 text-center">
+<div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-5xl">check_circle</span>
+</div>
+<h2 class="text-heading-light dark:text-heading-dark text-2xl font-bold mb-3">¡Postulación enviada!</h2>
+<p class="text-text-light dark:text-text-dark text-base mb-6">
+Tu solicitud ha sido recibida exitosamente. El equipo de Cruz Roja revisará tu aplicación y te contactará en los próximos días.
+</p>
+<button id="cerrarConfirmacionBtn" class="w-full flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-secondary text-white text-sm font-bold hover:bg-opacity-90 transition-all">
+<span>Entendido</span>
+</button>
+</div>
+</div>
+
+<script>
+  // Referencias a elementos del modal de postulación
+  const postularseBtn = document.getElementById('postularseBtn');
+  const postulacionModal = document.getElementById('postulacionModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const postulacionForm = document.getElementById('postulacionForm');
+  
+  // Referencias al modal de confirmación
+  const confirmacionModal = document.getElementById('confirmacionModal');
+  const cerrarConfirmacionBtn = document.getElementById('cerrarConfirmacionBtn');
+
+  // Función para abrir el modal de postulación
+  function openPostulacionModal() {
+    postulacionModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Función para cerrar el modal de postulación
+  function closePostulacionModal() {
+    postulacionModal.classList.remove('active');
+    document.body.style.overflow = '';
+    postulacionForm.reset();
+  }
+
+  // Función para abrir el modal de confirmación
+  function openConfirmacionModal() {
+    closePostulacionModal();
+    setTimeout(() => {
+      confirmacionModal.classList.add('active');
+    }, 300);
+  }
+
+  // Función para cerrar el modal de confirmación
+  function closeConfirmacionModal() {
+    confirmacionModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Event listeners para el modal de postulación
+  postularseBtn.addEventListener('click', openPostulacionModal);
+  closeModalBtn.addEventListener('click', closePostulacionModal);
+  cancelBtn.addEventListener('click', closePostulacionModal);
+
+  // Cerrar modal al hacer clic fuera
+  postulacionModal.addEventListener('click', (e) => {
+    if (e.target === postulacionModal) {
+      closePostulacionModal();
+    }
+  });
+
+  // Cerrar modal con tecla ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (postulacionModal.classList.contains('active')) {
+        closePostulacionModal();
+      }
+      if (confirmacionModal.classList.contains('active')) {
+        closeConfirmacionModal();
+      }
+    }
+  });
+
+  // Manejar el envío del formulario
+  postulacionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Aquí normalmente enviarías los datos a un servidor
+    // Por ahora solo mostramos el modal de confirmación
+    openConfirmacionModal();
+  });
+
+  // Event listener para cerrar el modal de confirmación
+  cerrarConfirmacionBtn.addEventListener('click', closeConfirmacionModal);
+  
+  confirmacionModal.addEventListener('click', (e) => {
+    if (e.target === confirmacionModal) {
+      closeConfirmacionModal();
+    }
+  });
+</script>
+</body>
+</html>
